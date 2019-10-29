@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../../api/stuff/Stuff.js';
+import initStoreData from './InitStoreData';
 
 /* eslint-disable no-console */
 
@@ -8,7 +9,7 @@ function addData(data) {
   console.log(`  Adding: ${data.name} (${data.owner})`);
   Stuffs.insert(data);
 }
-
+initStoreData();
 /** Initialize the collection if empty. */
 if (Stuffs.find().count() === 0) {
   if (Meteor.settings.defaultData) {

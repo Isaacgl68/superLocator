@@ -1,4 +1,4 @@
-accounts-base@1.4.4
+accounts-base@1.4.3
 accounts-password@1.5.1
 alanning:roles@1.2.16
 aldeed:collection2@3.0.2
@@ -53,7 +53,7 @@ mobile-status-bar@1.0.14
 modern-browsers@0.1.4
 modules@0.13.0
 modules-runtime@0.10.3
-mongo@1.6.3
+mongo@1.6.2
 mongo-decimal@0.1.1
 mongo-dev-server@1.1.0
 mongo-id@1.0.7
@@ -83,5 +83,5 @@ templating-tools@1.1.2
 tmeasday:check-npm-versions@0.3.2
 tracker@1.2.0
 underscore@1.0.10
-webapp@1.7.4
+webapp@1.7.3
 webapp-hashing@1.0.9
