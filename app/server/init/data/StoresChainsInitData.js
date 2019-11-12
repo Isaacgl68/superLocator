@@ -1,4 +1,4 @@
-const storeChainsData = [
+const StoresChainsData = [
     {
         name: 'סופרסל',
         category: 'סופרמרקט',
@@ -16,9 +16,19 @@ const storeChainsData = [
         category: 'סופרמרקט',
     },
     {
+        name: 'קינג סטור',
+        category: 'סופרמרקט',
+    },
+    {
         name: 'עצמאי',
         category: 'סופרמרקט',
+    },{
+        name: 'סופרפארם',
+        category: 'פארם',
+    },{
+        name: 'ניופארם',
+        category: 'פארם',
     },
 ];
 
-export default storeChainsData;
+export default StoresChainsData;

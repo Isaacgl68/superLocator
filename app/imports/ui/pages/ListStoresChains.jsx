@@ -1,27 +1,21 @@
 import React from 'react';
 import {Meteor} from 'meteor/meteor';
 import {Container, Table, Header, Loader, Input} from 'semantic-ui-react';
-import StoreCategoryItem from '/imports/ui/components/StoreCategoryItem';
+import StoresChainsItem from '/imports/ui/components/StoresChainsItem';
 import {withTracker} from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import {StoreCategory} from '../../models/ref/StoreCategory';
+import {StoresChains} from '../../models/ref/StoresChains';
 //import {ReactiveVar} from 'meteor/reactive-var';
 
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
-class ListStoreCategory extends React.Component {
+class ListStoresChains extends React.Component {
     state = {
-        selectedRow: null,
     };
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
     render() {
         return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
-    }
-
-    onRowClick=  (id)=> {
-        this.setState({selectedRow: id});
-        this.props.onItemSelected(id)
     }
 
     /** Render the page once subscriptions have been received. */
@@ -31,15 +25,14 @@ class ListStoreCategory extends React.Component {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Id</Table.HeaderCell>
+                        <Table.HeaderCell>Name</Table.HeaderCell>
                         <Table.HeaderCell>Category</Table.HeaderCell>
+
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.props.storeCategory.map((storeCategory) => (
-                        <StoreCategoryItem key={storeCategory._id}
-                                           onRowClick={this.onRowClick}
-                                           isActive={storeCategory._id === this.state.selectedRow}
-                                           storeCategory={storeCategory}></StoreCategoryItem>))
+                    {this.props.storesChains.map((storesChain) => (
+                        <StoresChainsItem key={storesChain._id} storesChain={storesChain}></StoresChainsItem>))
                     }
                 </Table.Body>
             </Table>
@@ -48,19 +41,18 @@ class ListStoreCategory extends React.Component {
 }
 
 /** Require an array of Stuff documents in the props. */
-ListStoreCategory.propTypes = {
-    storeCategory: PropTypes.array.isRequired,
+ListStoresChains.propTypes = {
+    storesChains: PropTypes.array.isRequired,
     ready: PropTypes.bool.isRequired,
-    onItemSelected: PropTypes.func.isRequired
 };
 
 /** withTracker connects Meteor data to React components. khttps://guide.meteor.com/react.html#using-withTracer */
 export default withTracker(({findConfiguration}) => {
 
     // Get access to Stuff documents.
-    const subscription = Meteor.subscribe('StoreCategory', findConfiguration);
+    const subscription = Meteor.subscribe('StoresChains', findConfiguration);
     return {
-        storeCategory: StoreCategory.find().fetch(),
+        storesChains: StoresChains.find().fetch(),
         ready: subscription.ready(),
     };
-})(ListStoreCategory);
+})(ListStoresChains);

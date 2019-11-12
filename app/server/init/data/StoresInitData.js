@@ -1,5 +1,5 @@
-const storesData = [
-    {
+const StoresData = [
+    /*{
         name: '',
         chain: '',
         category: '',
@@ -13,14 +13,14 @@ const storesData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
-    },
+    },*/
     {
-        name: 'סופרסל עין אפק',
-        chain: 'סופרסל',
+        name: 'ויקטורי פארק אפק',
+        chain: 'ויקטורי',
         category: 'סופרמרקט',
         address: {
-            line1: ' אפק 2',
-            line2: 'קניון עין אפק',
+            line1: 'עמל 2',
+            line2: '',
             city: 'ראש העין',
             postCode: '',
         },
@@ -49,9 +49,69 @@ const storesData = [
         chain: 'סופרסל',
         category: 'סופרמרקט',
         address: {
-            line1: ' משה דיין 2',
+            line1: 'משה דיין 2',
             line2: 'קניון גבעת טל',
             city: 'ראש העין',
+            postCode: '',
+        },
+        location: {
+            lat: 0.76655554,
+            long: -0.9887776,
+        },
+    },
+    {
+        name: 'סופרסל רעננה',
+        chain: 'סופרסל',
+        category: 'סופרמרקט',
+        address: {
+            line1: '2 אחוזה',
+            line2: '',
+            city: 'ראש העין',
+            postCode: '',
+        },
+        location: {
+            lat: 0.76655554,
+            long: -0.9887776,
+        },
+    },
+    {
+        name: 'סופרסל כפר סבא',
+        chain: 'סופרסל',
+        category: 'סופרמרקט',
+        address: {
+            line1: 'ויצמן 2',
+            line2: '',
+            city: 'כפר סבא',
+            postCode: '',
+        },
+        location: {
+            lat: 0.76655554,
+            long: -0.9887776,
+        },
+    },
+    {
+        name: 'סופרסל אלנבי',
+        chain: 'סופרסל',
+        category: 'סופרמרקט',
+        address: {
+            line1: 'אלנבי 2',
+            line2: '',
+            city: 'תל אביב',
+            postCode: '',
+        },
+        location: {
+            lat: 0.76655554,
+            long: -0.9887776,
+        },
+    },
+    {
+        name: 'סופרסל דיזינגוף',
+        chain: 'סופרסל',
+        category: 'סופרמרקט',
+        address: {
+            line1: 'דיזינגוף 2',
+            line2: '',
+            city: 'תל אביב',
             postCode: '',
         },
         location: {
@@ -65,7 +125,22 @@ const storesData = [
         category: 'סופרמרקט',
         address: {
             line1: 'הזית 1',
-            line2: 'לב הארץ',
+            line2: 'אזור תעשיה לב הארץ',
+            city: 'ראש העין',
+            postCode: '',
+        },
+        location: {
+            lat: 0.76655554,
+            long: -0.9887776,
+        },
+    },
+    {
+        name: 'קינג סטור לב הארץ',
+        chain: 'קינג סטור',
+        category: 'סופרמרקט',
+        address: {
+            line1: 'אזור תעשיה לב הארץ',
+            line2: '',
             city: 'ראש העין',
             postCode: '',
         },
@@ -76,4 +151,4 @@ const storesData = [
     },
 
 ];
-export default storesData;
+export default StoresData;

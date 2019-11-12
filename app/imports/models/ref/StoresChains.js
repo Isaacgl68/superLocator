@@ -3,10 +3,10 @@ import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
 
 /** Define a Mongo collection to hold the data. */
-const StoresChain = new Mongo.Collection('StoresChain');
+const StoresChains = new Mongo.Collection('StoresChains');
 
 /** Define a schema to specify the structure of each document in the collection. */
-const StoresChainSchema = new SimpleSchema({
+const StoresChainsSchema = new SimpleSchema({
     name: String,
     description: {
         type: String,
@@ -16,7 +16,7 @@ const StoresChainSchema = new SimpleSchema({
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */
-StoresChain.attachSchema(StoresChainSchema);
+StoresChains.attachSchema(StoresChainsSchema);
 
 /** Make the collection and schema available to other code. */
-export { StoresChainSchema, StoresChain };
+export { StoresChainsSchema, StoresChains };

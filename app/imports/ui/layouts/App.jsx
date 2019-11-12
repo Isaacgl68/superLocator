@@ -15,7 +15,8 @@ import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
-import ListStoreCategory from '../pages/ListStoreCategory';
+import ContentContainer from '../components/ContentContainer';
+import {  Segment,} from 'semantic-ui-react';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -24,18 +25,20 @@ class App extends React.Component {
         <Router>
           <div>
             <NavBar/>
+            <div style={{marginTop: '58px'}}>
             <Switch>
               <Route exact path="/" component={Landing}/>
               <Route path="/signin" component={Signin}/>
               <Route path="/signup" component={Signup}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
-              <Route path="/listStoreCategory" component={ListStoreCategory}/>
+              <Route path="/lists/:listName" component={ContentContainer}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
             </Switch>
+            </div>
             <Footer/>
           </div>
         </Router>

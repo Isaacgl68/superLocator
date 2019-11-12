@@ -1,6 +1,7 @@
 {
   "reloadInitScripts": {
-    "StoreCategory": false
+    "StoreCategory": false,
+    "Stores": true
   },
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "admin" },

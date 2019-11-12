@@ -1,4 +1,4 @@
-const storeCategoryData = [
+const StoreCategoryData = [
     {
         name: 'סופרמרקט',
     },
@@ -12,4 +12,4 @@ const storeCategoryData = [
         name: 'ביגוד והנעלה',
     },
 ];
-export default storeCategoryData;
+export default StoreCategoryData;
