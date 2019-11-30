@@ -23,12 +23,22 @@ const AddressSchema = new SimpleSchema({
 });
 
 const LocationSchema = new SimpleSchema({
-  lat: Number,
-  long: Number,
+  lat: {
+    type: Number,
+    optional: true,
+  },
+  long: {
+    type: Number,
+    optional: true,
+  },
 });
 
 /** Define a schema to specify the structure of each document in the collection. */
 const StoreSchema = new SimpleSchema({
+  _id: {
+    type: SimpleSchema.RegEx.Id,
+    optional: true,
+  },
   name: String,
   description: {
     type: String,

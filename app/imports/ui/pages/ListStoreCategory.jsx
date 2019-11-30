@@ -1,11 +1,11 @@
 import React from 'react';
-import {Meteor} from 'meteor/meteor';
-import {Container, Table, Header, Loader, Input} from 'semantic-ui-react';
+import { Meteor } from 'meteor/meteor';
+import { Container, Table, Header, Loader, Input } from 'semantic-ui-react';
 import StoreCategoryItem from '/imports/ui/components/StoreCategoryItem';
-import {withTracker} from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import {StoreCategory} from '../../models/ref/StoreCategory';
-//import {ReactiveVar} from 'meteor/reactive-var';
+import { StoreCategory } from '../../models/ref/StoreCategory';
+// import {ReactiveVar} from 'meteor/reactive-var';
 
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
@@ -19,9 +19,10 @@ class ListStoreCategory extends React.Component {
         return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
     }
 
-    onRowClick=  (id)=> {
-        this.setState({selectedRow: id});
-        this.props.onItemSelected(id)
+    onRowClick= (id) => {
+        if (this.props.mode > 0) return;
+        this.setState({ selectedRow: id });
+        this.props.onItemSelected(id);
     }
 
     /** Render the page once subscriptions have been received. */
@@ -51,11 +52,12 @@ class ListStoreCategory extends React.Component {
 ListStoreCategory.propTypes = {
     storeCategory: PropTypes.array.isRequired,
     ready: PropTypes.bool.isRequired,
-    onItemSelected: PropTypes.func.isRequired
+    onItemSelected: PropTypes.func.isRequired,
+    mode: PropTypes.number,
 };
 
 /** withTracker connects Meteor data to React components. khttps://guide.meteor.com/react.html#using-withTracer */
-export default withTracker(({findConfiguration}) => {
+export default withTracker(({ findConfiguration }) => {
 
     // Get access to Stuff documents.
     const subscription = Meteor.subscribe('StoreCategory', findConfiguration);

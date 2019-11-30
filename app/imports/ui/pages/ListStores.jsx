@@ -1,17 +1,23 @@
 import React from 'react';
-import {Meteor} from 'meteor/meteor';
-import {Container, Table, Header, Loader, Input} from 'semantic-ui-react';
+import { Meteor } from 'meteor/meteor';
+import { Container, Table, Loader } from 'semantic-ui-react';
 import StoresItem from '/imports/ui/components/StoresItem';
-import {withTracker} from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import {Stores} from '../../models/app/stores/Stores';
-//import {ReactiveVar} from 'meteor/reactive-var';
+import { Stores } from '../../models/app/stores/Stores';
 
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ListStores extends React.Component {
     state = {
+        selectedRow: null,
     };
+
+    onRowClick= (id) => {
+        if (this.props.mode > 0) return;
+        this.setState({ selectedRow: id });
+        this.props.onItemSelected(id);
+    }
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
     render() {
@@ -34,7 +40,12 @@ class ListStores extends React.Component {
                 </Table.Header>
                 <Table.Body>
                     {this.props.stores.map((store) => (
-                        <StoresItem key={store._id} store={store}></StoresItem>))
+                        <StoresItem
+                            key={store._id}
+                            store={store}
+                            onRowClick={this.onRowClick}
+                            isActive={store._id === this.state.selectedRow}
+                        />))
                     }
                 </Table.Body>
             </Table>
@@ -46,10 +57,12 @@ class ListStores extends React.Component {
 ListStores.propTypes = {
     stores: PropTypes.array.isRequired,
     ready: PropTypes.bool.isRequired,
+    onItemSelected: PropTypes.func.isRequired,
+    mode: PropTypes.number,
 };
 
 /** withTracker connects Meteor data to React components. khttps://guide.meteor.com/react.html#using-withTracer */
-export default withTracker(({findConfiguration}) => {
+export default withTracker(({ findConfiguration }) => {
 
     // Get access to Stuff documents.
     const subscription = Meteor.subscribe('Stores', findConfiguration);

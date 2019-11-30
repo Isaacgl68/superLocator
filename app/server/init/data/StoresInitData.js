@@ -1,5 +1,5 @@
 const StoresData = [
-    /*{
+    /* {
         name: '',
         chain: '',
         category: '',
@@ -13,7 +13,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
-    },*/
+    }, */
     {
         name: 'ויקטורי פארק אפק',
         chain: 'ויקטורי',

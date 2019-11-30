@@ -7,6 +7,10 @@ const StoresChains = new Mongo.Collection('StoresChains');
 
 /** Define a schema to specify the structure of each document in the collection. */
 const StoresChainsSchema = new SimpleSchema({
+    _id: {
+        type: SimpleSchema.RegEx.Id,
+        optional: true,
+    },
     name: String,
     description: {
         type: String,

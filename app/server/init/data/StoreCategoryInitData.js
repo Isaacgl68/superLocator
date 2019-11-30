@@ -1,15 +1,15 @@
 const StoreCategoryData = [
     {
-        name: 'סופרמרקט',
+        category: 'סופרמרקט',
     },
     {
-        name: 'מזון',
+        category: 'מזון',
     },
     {
-        name: 'פארם',
+        category: 'פארם',
     },
     {
-        name: 'ביגוד והנעלה',
+        category: 'ביגוד והנעלה',
     },
 ];
 export default StoreCategoryData;

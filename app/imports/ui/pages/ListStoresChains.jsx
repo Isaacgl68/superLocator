@@ -18,6 +18,12 @@ class ListStoresChains extends React.Component {
         return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
     }
 
+    onRowClick= (id) => {
+        if (this.props.mode > 0) return;
+        this.setState({ selectedRow: id });
+        this.props.onItemSelected(id);
+    }
+
     /** Render the page once subscriptions have been received. */
     renderPage() {
         return <Container>
@@ -32,7 +38,10 @@ class ListStoresChains extends React.Component {
                 </Table.Header>
                 <Table.Body>
                     {this.props.storesChains.map((storesChain) => (
-                        <StoresChainsItem key={storesChain._id} storesChain={storesChain}></StoresChainsItem>))
+                        <StoresChainsItem key={storesChain._id}
+                                          onRowClick={this.onRowClick}
+                                          isActive={storesChain._id === this.state.selectedRow}
+                                          storesChain={storesChain}></StoresChainsItem>))
                     }
                 </Table.Body>
             </Table>
@@ -44,6 +53,8 @@ class ListStoresChains extends React.Component {
 ListStoresChains.propTypes = {
     storesChains: PropTypes.array.isRequired,
     ready: PropTypes.bool.isRequired,
+    onItemSelected: PropTypes.func.isRequired,
+    mode: PropTypes.number,
 };
 
 /** withTracker connects Meteor data to React components. khttps://guide.meteor.com/react.html#using-withTracer */

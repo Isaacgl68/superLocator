@@ -1,48 +1,50 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Input } from 'semantic-ui-react';
-import ListStoreCategory from './../pages/ListStoreCategory';
-import ListStoresChains from './../pages/ListStoresChains';
-import ListStores from './../pages/ListStores';
+import ListStoreCategory from '../pages/ListStoreCategory';
+import ListStoresChains from '../pages/ListStoresChains';
+import ListStores from '../pages/ListStores';
 
-//import {useParams} from "react-router-dom";
+// import {useParams} from "react-router-dom";
 
 class SummeryContainer extends Component {
     state = {
         filter: '',
         findConfig: {
-            filter: ''
-        }
+            filter: '',
+        },
     };
 
     constructor(props) {
         super(props);
     }
 
-    getListComponent(){
-        const {listName} = this.props;
+    getListComponent() {
+        const { listName, mode } = this.props;
         switch (listName) {
             case 'StoreCategory':
                 return <ListStoreCategory findConfiguration={this.state.findConfig}
+                                          mode={mode}
                                           onItemSelected={this.props.onItemSelected}></ListStoreCategory>;
             case 'StoresChains':
                 return <ListStoresChains findConfiguration={this.state.findConfig}
+                                         mode={mode}
                                          onItemSelected={this.props.onItemSelected} ></ListStoresChains>;
             case 'Stores':
                 return <ListStores findConfiguration={this.state.findConfig}
+                                   mode={mode}
                                    onItemSelected={this.props.onItemSelected} ></ListStores>;
             default:
-                return <div>list not found error</div>
+                return <div>list not found error</div>;
 
         }
     }
 
 
-
     onSearch = (event) => {
-        let findConfig = Object.assign({}, this.state.findConfig);
+        const findConfig = Object.assign({}, this.state.findConfig);
         findConfig.filter = this.state.filter;
-        this.setState({findConfig});
+        this.setState({ findConfig });
 
     }
 
@@ -58,7 +60,7 @@ class SummeryContainer extends Component {
                                }}
                                value={this.state.filter}
                                actionPosition='left'
-                               onChange={(event) => this.setState({filter: event.currentTarget.value})}
+                               onChange={(event) => this.setState({ filter: event.currentTarget.value })}
                                placeholder="Search..."/>
                     </Grid.Column>
                 </Grid.Row>
@@ -79,7 +81,8 @@ class SummeryContainer extends Component {
 
 SummeryContainer.propTypes = {
     listName: PropTypes.string.isRequired,
-    onItemSelected: PropTypes.func.isRequired
+    onItemSelected: PropTypes.func.isRequired,
+    mode: PropTypes.number,
 };
 
 export default SummeryContainer;

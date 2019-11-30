@@ -5,14 +5,29 @@ import { Tracker } from 'meteor/tracker';
 /** Define a Mongo collection to hold the data. */
 const ProductsCategory = new Mongo.Collection('ProductsCategory');
 
+const ParentCategorySchema = new SimpleSchema({
+    parentId: {
+        type: SimpleSchema.RegEx.Id,
+    },
+    path: String,
+});
+
 /** Define a schema to specify the structure of each document in the collection. */
 const ProductsCategorySchema = new SimpleSchema(
     {
-        name: String,
-        description: String,
-        parentCategory: Object,
-        'parentCategory._id': String,
-        'parentCategory.path': String,
+        _id: {
+            type: SimpleSchema.RegEx.Id,
+            optional: true,
+        },
+        label: String,
+        description: {
+            type: String,
+            optional: true,
+        },
+        parentCategory: {
+            type: ParentCategorySchema,
+            optional: true,
+        },
     }, { tracker: Tracker },
 );
 
