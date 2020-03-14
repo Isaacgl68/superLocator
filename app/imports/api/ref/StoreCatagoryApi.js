@@ -40,6 +40,6 @@ export const getCategoryList = new ValidatedMethod({
     validate: null,
     run() {
         console.log('getCategoryList');
-        return StoreCategory.find({}, { sort: { category: -1 } }).fetch();
+        return StoreCategory.find({}, { sort: { category: 1 } }).fetch();
     },
 });

@@ -10,6 +10,7 @@ import { StoresChains } from '../../models/ref/StoresChains';
 import { FloorUnitsType } from '../../models/ref/FloorUnitsType';
 import { Stores } from '../../models/app/stores/Stores';
 import { ProductsCategory } from '../../models/ref/ProductsCategory';
+import { FloorPlanItems } from '../../models/app/floor/FloorPlanItems';
 
 
 const initStatusCollection = new Mongo.Collection('initStatus');

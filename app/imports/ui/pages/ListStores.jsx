@@ -1,22 +1,23 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Table, Loader } from 'semantic-ui-react';
+import { observer } from 'mobx-react';
 import StoresItem from '/imports/ui/components/StoresItem';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Stores } from '../../models/app/stores/Stores';
+import StateManager from '../stateManager/StateManager';
 
 
-/** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
+@observer
 class ListStores extends React.Component {
     state = {
         selectedRow: null,
     };
 
     onRowClick= (id) => {
-        if (this.props.mode > 0) return;
-        this.setState({ selectedRow: id });
-        this.props.onItemSelected(id);
+        if (StateManager.mode > 0) return;
+        StateManager.setSelectedDocumentId(id);
     }
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -35,6 +36,7 @@ class ListStores extends React.Component {
                         <Table.HeaderCell>chain</Table.HeaderCell>
                         <Table.HeaderCell>Category</Table.HeaderCell>
                         <Table.HeaderCell>City</Table.HeaderCell>
+                        <Table.HeaderCell></Table.HeaderCell>
 
                     </Table.Row>
                 </Table.Header>
@@ -44,7 +46,7 @@ class ListStores extends React.Component {
                             key={store._id}
                             store={store}
                             onRowClick={this.onRowClick}
-                            isActive={store._id === this.state.selectedRow}
+                            isActive={store._id === StateManager.selectedDocumentId}
                         />))
                     }
                 </Table.Body>
@@ -57,8 +59,7 @@ class ListStores extends React.Component {
 ListStores.propTypes = {
     stores: PropTypes.array.isRequired,
     ready: PropTypes.bool.isRequired,
-    onItemSelected: PropTypes.func.isRequired,
-    mode: PropTypes.number,
+    onItemSelected: PropTypes.func,
 };
 
 /** withTracker connects Meteor data to React components. khttps://guide.meteor.com/react.html#using-withTracer */

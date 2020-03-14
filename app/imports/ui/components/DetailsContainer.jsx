@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 import { Segment, Button } from 'semantic-ui-react';
 import EditStoreCategory from './forms/EditStoreCategory';
 import EditStoreChain from './forms/EditStoreChain';
 import EditStore from './forms/EditStore';
+import EditFloorItem from './forms/EditFloorItem';
+import StateManager from '../stateManager/StateManager';
 
-// import {useParams} from "react-router-dom";
 
+@observer
 class DetailsContainer extends Component {
     state = {
-        mode: 0, // read only
     };
 
     formRef = React.createRef();
@@ -20,58 +22,47 @@ class DetailsContainer extends Component {
     }
 
     getFormComponent() {
-        const { formName, documentId, mode } = this.props;
+        const { formName } = this.props;
         switch (formName) {
             case 'StoreCategory':
-                return <EditStoreCategory ref={this.formRef}
-                                          mode={mode}
-                                          documentId={documentId}>
-                </EditStoreCategory>;
+                return <EditStoreCategory ref={this.formRef} />;
             case 'StoresChains':
-                return <EditStoreChain ref={this.formRef}
-                                          mode={mode}
-                                          documentId={documentId}>
-                </EditStoreChain>;
+                return <EditStoreChain ref={this.formRef}/>;
             case 'Stores':
-                return <EditStore ref={this.formRef}
-                                   mode={mode}
-                                   documentId={documentId}>
-                </EditStore>;
+                return <EditStore ref={this.formRef}/>;
+            case 'FloorPlanItems':
+                return <EditFloorItem ref={this.formRef}/>;
             default:
-                return <div>list not found error</div>;
+                return <div>Form not found.</div>;
         }
     }
 
     onAddClick = () => {
-        // this.setState({ mode: 2 });
-        this.props.onModeChange(2);
+        StateManager.setMode(2);
 
     }
 
     onEditClick = () => {
-        if (this.props.documentId) {
-            // this.setState({ mode: 1 });
-            this.props.onModeChange(1);
+        if (StateManager.selectedDocumentId) {
+            StateManager.setMode(1);
         }
     }
 
      onSubmit = async () => {
         await this.formRef.current.submit();
-        // this.setState({ mode: 0 });
-         this.props.onModeChange(0);
+         StateManager.setMode(0);
     }
 
     onCancel = () => {
-        // this.setState({ mode: 0 });
-        this.props.onModeChange(0);
+        StateManager.setMode(0);
     }
 
 
     render() {
-        const { mode } = this.props;
+        const { mode, selectedDocumentId } = StateManager;
         const saveGroupStyle = (mode > 0) ? {} : { display: 'none' };
         const lockButtonStyle = (mode > 0) ? { display: 'none' } : { };
-        const editButtonStyle = (mode === 2 || !this.props.documentId) ? { display: 'none' } : { };
+        const editButtonStyle = (mode === 2 || !selectedDocumentId) ? { display: 'none' } : { };
         const addButtonStyle = (mode === 1) ? { display: 'none' } : { };
         const addColor = mode === 2 ? 'twitter' : null;
         const lockColor = mode === 0 ? 'twitter' : null;
@@ -79,7 +70,7 @@ class DetailsContainer extends Component {
         return (
             <Segment>
                 <div>
-                    <Button.Group toggel>
+                    <Button.Group toggel={'true'}>
                         <Button icon="lock"
                                 style={lockButtonStyle}
                                 active={mode === 0}
@@ -87,7 +78,7 @@ class DetailsContainer extends Component {
                         />
                         <Button icon="edit outline"
                                 style={editButtonStyle}
-                                disabled={ !this.props.documentId}
+                                disabled={ !selectedDocumentId}
                                 color={ editColor }
                                 active={mode === 1}
                                 onClick={this.onEditClick}/>
@@ -114,9 +105,6 @@ class DetailsContainer extends Component {
 
 DetailsContainer.propTypes = {
     formName: PropTypes.string.isRequired,
-    documentId: PropTypes.string,
-    onModeChange: PropTypes.func,
-    mode: PropTypes.number,
 };
 
 export default DetailsContainer;

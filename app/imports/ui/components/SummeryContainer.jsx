@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 import { Grid, Input } from 'semantic-ui-react';
 import ListStoreCategory from '../pages/ListStoreCategory';
 import ListStoresChains from '../pages/ListStoresChains';
 import ListStores from '../pages/ListStores';
+// import StateManager from '../stateManager/StateManager';
 
-// import {useParams} from "react-router-dom";
 
+@observer
 class SummeryContainer extends Component {
     state = {
         filter: '',
@@ -15,25 +17,16 @@ class SummeryContainer extends Component {
         },
     };
 
-    constructor(props) {
-        super(props);
-    }
-
     getListComponent() {
-        const { listName, mode } = this.props;
+        const { listName } = this.props;
         switch (listName) {
             case 'StoreCategory':
                 return <ListStoreCategory findConfiguration={this.state.findConfig}
-                                          mode={mode}
-                                          onItemSelected={this.props.onItemSelected}></ListStoreCategory>;
+                                          ></ListStoreCategory>;
             case 'StoresChains':
-                return <ListStoresChains findConfiguration={this.state.findConfig}
-                                         mode={mode}
-                                         onItemSelected={this.props.onItemSelected} ></ListStoresChains>;
+                return <ListStoresChains findConfiguration={this.state.findConfig}></ListStoresChains>;
             case 'Stores':
-                return <ListStores findConfiguration={this.state.findConfig}
-                                   mode={mode}
-                                   onItemSelected={this.props.onItemSelected} ></ListStores>;
+                return <ListStores findConfiguration={this.state.findConfig}></ListStores>;
             default:
                 return <div>list not found error</div>;
 
@@ -41,7 +34,7 @@ class SummeryContainer extends Component {
     }
 
 
-    onSearch = (event) => {
+    onSearch = () => {
         const findConfig = Object.assign({}, this.state.findConfig);
         findConfig.filter = this.state.filter;
         this.setState({ findConfig });
@@ -81,8 +74,7 @@ class SummeryContainer extends Component {
 
 SummeryContainer.propTypes = {
     listName: PropTypes.string.isRequired,
-    onItemSelected: PropTypes.func.isRequired,
-    mode: PropTypes.number,
+    onItemSelected: PropTypes.func,
 };
 
 export default SummeryContainer;

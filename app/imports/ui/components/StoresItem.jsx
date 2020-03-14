@@ -1,6 +1,8 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { withRouter, Link } from 'react-router-dom';
+
 
 class StoresItem extends React.Component {
 
@@ -18,6 +20,9 @@ class StoresItem extends React.Component {
             <Table.Cell>{this.props.store.chain}</Table.Cell>
             <Table.Cell>{this.props.store.category}</Table.Cell>
             <Table.Cell>{this.props.store.address.city}</Table.Cell>
+            <Table.Cell>
+                <Link to={`/floorPlan/${this.props.store._id}`}>Floor Plan</Link>
+            </Table.Cell>
         </Table.Row>
     );
   }
@@ -31,4 +36,4 @@ StoresItem.propTypes = {
 };
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */
-export default StoresItem;
+export default withRouter(StoresItem);

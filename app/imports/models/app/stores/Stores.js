@@ -33,6 +33,22 @@ const LocationSchema = new SimpleSchema({
   },
 });
 
+const FloorPlanSchema = new SimpleSchema({
+
+  floorNumber: {
+    type: SimpleSchema.Integer,
+    defaultValue: 1,
+  },
+  width: {
+    type: SimpleSchema.Integer,
+    defaultValue: 20,
+  },
+  height: {
+    type: SimpleSchema.Integer,
+    defaultValue: 20,
+  },
+});
+
 /** Define a schema to specify the structure of each document in the collection. */
 const StoreSchema = new SimpleSchema({
   _id: {
@@ -48,8 +64,10 @@ const StoreSchema = new SimpleSchema({
   category: String,
   address: AddressSchema,
   location: LocationSchema,
-
-
+  floorPlan: {
+    type: FloorPlanSchema,
+    defaultValue: { floorNumber: 1, width: 20, height: 20 },
+  },
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

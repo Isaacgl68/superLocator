@@ -4,6 +4,8 @@ import { Stuffs } from '../../api/stuff/Stuff';
 import { StoreCategory } from '../../models/ref/StoreCategory';
 import { StoresChains } from '../../models/ref/StoresChains';
 import { Stores } from '../../models/app/stores/Stores';
+import { FloorPlanItems } from '../../models/app/floor/FloorPlanItems';
+
 
 /** This subscription publishes only the documents associated with the logged in user */
 Meteor.publish('Stuff', function publish() {
@@ -47,4 +49,15 @@ Meteor.publish('Stores', function publish(config) {
       ] });
   }
   return Stores.find();
+});
+
+Meteor.publish('FloorPlanItems', function publish(storeId, config) {
+  console.log('publication FloorPlanItems');
+  if (!storeId) return [];
+
+  if (config && config.filter) {
+    return FloorPlanItems.find({ label: { $regex: `.*${config.filter}.*` },
+                              storeId: { $eq: storeId } });
+  }
+  return FloorPlanItems.find({ storeId: { $eq: storeId } });
 });

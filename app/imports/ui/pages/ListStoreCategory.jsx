@@ -1,14 +1,15 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Table, Header, Loader, Input } from 'semantic-ui-react';
+import { observer } from 'mobx-react';
 import StoreCategoryItem from '/imports/ui/components/StoreCategoryItem';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { StoreCategory } from '../../models/ref/StoreCategory';
-// import {ReactiveVar} from 'meteor/reactive-var';
+import StateManager from "../stateManager/StateManager";
 
 
-/** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
+@observer
 class ListStoreCategory extends React.Component {
     state = {
         selectedRow: null,
@@ -20,9 +21,8 @@ class ListStoreCategory extends React.Component {
     }
 
     onRowClick= (id) => {
-        if (this.props.mode > 0) return;
-        this.setState({ selectedRow: id });
-        this.props.onItemSelected(id);
+        if (StateManager.mode > 0) return;
+        StateManager.setSelectedDocumentId(id);
     }
 
     /** Render the page once subscriptions have been received. */
@@ -39,7 +39,7 @@ class ListStoreCategory extends React.Component {
                     {this.props.storeCategory.map((storeCategory) => (
                         <StoreCategoryItem key={storeCategory._id}
                                            onRowClick={this.onRowClick}
-                                           isActive={storeCategory._id === this.state.selectedRow}
+                                           isActive={storeCategory._id === StateManager.selectedDocumentId}
                                            storeCategory={storeCategory}></StoreCategoryItem>))
                     }
                 </Table.Body>
@@ -52,8 +52,7 @@ class ListStoreCategory extends React.Component {
 ListStoreCategory.propTypes = {
     storeCategory: PropTypes.array.isRequired,
     ready: PropTypes.bool.isRequired,
-    onItemSelected: PropTypes.func.isRequired,
-    mode: PropTypes.number,
+    onItemSelected: PropTypes.func,
 };
 
 /** withTracker connects Meteor data to React components. khttps://guide.meteor.com/react.html#using-withTracer */

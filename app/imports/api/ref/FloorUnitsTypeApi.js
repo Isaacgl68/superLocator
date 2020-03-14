@@ -39,6 +39,6 @@ export const getUnitTypeList = new ValidatedMethod({
     name: 'floorUnitsType.getUnitTypeList',
     validate: null,
     run() {
-        return FloorUnitsType.find({}, { sort: { unitType: -1 } }).fetch();
+        return FloorUnitsType.find({}, { sort: { unitType: 1 } }).fetch();
     },
 });

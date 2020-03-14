@@ -1,12 +1,14 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import { Loader, Label, Segment, Form } from 'semantic-ui-react';
 import swal from 'sweetalert';
-import { cloneDeep, toNumber, isNaN } from 'lodash';
-// import { Meteor } from 'meteor/meteor';
+import { cloneDeep, toNumber } from 'lodash';
+import StateManager from '../../stateManager/StateManager';
 import PropTypes from 'prop-types';
 import { getStoreChainsList } from '../../../api/ref/StoresChainsApi';
 import { getCategoryList } from '../../../api/ref/StoreCatagoryApi';
 import { insert, update, getById } from '../../../api/StoresApi';
+import {reaction} from "mobx";
 
 const initData = {
     name: '',
@@ -24,7 +26,7 @@ const initData = {
     },
 };
 
-/** Renders the Page for editing a single document. */
+@observer
 class EditStore extends React.Component {
 
     state = {
@@ -56,20 +58,27 @@ class EditStore extends React.Component {
         });
     }
 
-    componentDidUpdate(prevProps) {
-        const { mode, documentId } = this.props;
-        const { doc } = this.state;
-        if (mode === 0 && documentId && documentId !== prevProps.documentId) {
-            this.getDocument(documentId);
-        } else if (mode !== prevProps.mode) {
-            if (mode === 2 || !doc) {
-                this.setState({ activeData: cloneDeep(initData) });
-            } else {
-                this.setState({ activeData: cloneDeep(doc) });
-            }
-        }
-
+    onDocumentUpdateReaction = (selectedDocumentId) => {
+        if (StateManager.mode === 0 && selectedDocumentId) { this.getDocument(selectedDocumentId); }
     }
+
+    onModeReaction = (mode) => {
+        if (mode === 2 || !this.state.doc) {
+            this.setState({ activeData: cloneDeep(initData) });
+        } else {
+            this.setState({ activeData: cloneDeep(this.state.doc) });
+        }
+    }
+
+    onDocumentUpdate = reaction(
+        () => (StateManager.selectedDocumentId),
+        this.onDocumentUpdateReaction,
+    );
+
+    onModeUpdate = reaction(
+        () => (StateManager.mode),
+        this.onModeReaction,
+    );
 
     getDocument = (_id) => {
         getById.call({ _id }, (err, res) => {
@@ -90,7 +99,7 @@ class EditStore extends React.Component {
     /** On successful submit, insert the data. */
     submit = () => {
         const that = this;
-        const mode = this.props.mode;
+        const mode = StateManager.mode;
         const activeDate = this.state.activeData;
         activeDate.location.long = (activeDate.location.long) ? toNumber(activeDate.location.long) : undefined;
         activeDate.location.lat = (activeDate.location.lat) ? toNumber(activeDate.location.lat) : undefined;
@@ -166,7 +175,7 @@ class EditStore extends React.Component {
     }
 
     renderPage() {
-        const formIsReadOnly = this.props.mode === 0;
+        const formIsReadOnly = StateManager.mode === 0;
         const { activeData, categoryOptions, storeChainsOptions } = this.state;
         return (
             <Form>
@@ -209,8 +218,6 @@ class EditStore extends React.Component {
 }
 
 EditStore.propTypes = {
-    documentId: PropTypes.string,
-    mode: PropTypes.number,
 };
 
 export default EditStore;

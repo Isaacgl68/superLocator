@@ -2,36 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from 'semantic-ui-react';
 import { get } from 'lodash';
+import { observer } from 'mobx-react';
+import StateManager from '../stateManager/StateManager';
 import SummeryContainer from './SummeryContainer';
 import DetailsContainer from './DetailsContainer';
 
 
-// import {useParams} from "react-router-dom";
-
+@observer
 class ContentContainer extends Component {
     state = {
-        selectedItem: null,
-        mode: 0,
     };
 
-    constructor(props) {
-        super(props);
-
+    componentDidMount() {
+        StateManager.setState({ mode: 0, selectedDocumentId: null });
     }
-
 
     componentDidUpdate(prevProps) {
+
         if (get(this.props, 'match.params.listName') !== get(prevProps, 'match.params.listName')) {
-            this.setState({ mode: 0, selectedItem: null });
+
         }
-    }
-
-    onModeChange = (mode) => {
-        this.setState({ mode });
-    }
-
-    onItemSelected = (id) => {
-        this.setState({ selectedItem: id });
     }
 
     getMainAriaComponent(match) {
@@ -47,9 +37,7 @@ class ContentContainer extends Component {
         }
 
          */
-        return <SummeryContainer listName={match.params.listName}
-                                 mode={this.state.mode}
-                                 onItemSelected={this.onItemSelected}/>;
+        return <SummeryContainer listName={match.params.listName}/>;
     }
 
 
@@ -62,10 +50,7 @@ class ContentContainer extends Component {
                         {this.getMainAriaComponent(match)}
                     </Grid.Column>
                     <Grid.Column width={6} >
-                        <DetailsContainer documentId={this.state.selectedItem}
-                                          onModeChange={this.onModeChange}
-                                          mode={this.state.mode}
-                                          formName={ match.params.listName }></DetailsContainer>
+                        <DetailsContainer formName={ match.params.listName }></DetailsContainer>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

@@ -42,6 +42,6 @@ export const getStoreChainsList = new ValidatedMethod({
     validate: null,
     run() {
         console.log('getgetStoreChainsList');
-        return StoresChains.find({}, { sort: { name: -1 } }).fetch();
+        return StoresChains.find({}, { sort: { name: 1 } }).fetch();
     },
 });
