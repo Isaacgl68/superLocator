@@ -5,9 +5,9 @@ import { cloneDeep } from 'lodash';
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
 import { reaction } from "mobx";
-import { insert, update, getById } from '../../../api/FloorPlenItemsApi';
-import { getCategoryList } from '../../../api/ref/ProductsCatagoryApi';
-import { getUnitTypeList } from '../../../api/ref/FloorUnitsTypeApi';
+import { insert, update, getById } from '../../../../imports/api/FloorPlenItemsApi';
+import { getCategoryList } from '../../../../imports/api/ref/ProductsCatagoryApi';
+import { getUnitTypeList } from '../../../../imports/api/ref/FloorUnitsTypeApi';
 import StateManager from '../../stateManager/StateManager';
 
 const initData = {

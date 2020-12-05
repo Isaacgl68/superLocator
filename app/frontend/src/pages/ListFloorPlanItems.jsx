@@ -1,11 +1,9 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
 import { observer } from 'mobx-react';
 import { Container, Table, Loader } from 'semantic-ui-react';
 import FloorPlanItemsListItem from '/imports/ui/components/FloorPlanItemsListItem';
-import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { FloorPlanItems } from '../../models/app/floor/FloorPlanItems';
+import { FloorPlanItems } from '../../../imports/models/app/floor/FloorPlanItems';
 import StateManager from '../stateManager/StateManager';
 
 
@@ -59,12 +57,14 @@ ListFloorPlanItems.propTypes = {
     onItemSelected: PropTypes.func
 };
 
+export default ListFloorPlanItems;
+
 /** withTracker connects Meteor data to React components. khttps://guide.meteor.com/react.html#using-withTracer */
-export default withTracker(({ storeId, findConfiguration }) => {
+/*export default withTracker(({ storeId, findConfiguration }) => {
 
     const subscription = Meteor.subscribe('FloorPlanItems', storeId, findConfiguration);
     return {
         floorPlanItems: FloorPlanItems.find().fetch(),
         ready: subscription.ready(),
     };
-})(ListFloorPlanItems);
+})(ListFloorPlanItems);*/

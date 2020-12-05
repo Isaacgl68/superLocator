@@ -8,21 +8,18 @@
     }
   },
   "plugins": [
-    "meteor",
     "react"
   ],
   "settings": {
     "react": {
       "createClass": "createReactClass",
       "pragma": "React",  // Pragma to use, default to "React"
-      "version": "15.0", // React version, default to the latest React stable release
+      "version": "17.0", // React version, default to the latest React stable release
       "flowVersion": "0.53" // Flow version
     },
     "propWrapperFunctions": [ "forbidExtraProps" ]
   },
   "extends": [
-    "airbnb/base",
-    "plugin:meteor/recommended",
     "plugin:react/recommended"
   ],
   "rules": {

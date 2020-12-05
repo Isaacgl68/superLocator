@@ -1,11 +1,9 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
 import { Container, Table, Header, Loader, Input } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 import StoreCategoryItem from '/imports/ui/components/StoreCategoryItem';
-import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { StoreCategory } from '../../models/ref/StoreCategory';
+import { StoreCategory } from '../../../imports/models/ref/StoreCategory';
 import StateManager from "../stateManager/StateManager";
 
 
@@ -54,9 +52,9 @@ ListStoreCategory.propTypes = {
     ready: PropTypes.bool.isRequired,
     onItemSelected: PropTypes.func,
 };
-
+export default ListStoreCategory;
 /** withTracker connects Meteor data to React components. khttps://guide.meteor.com/react.html#using-withTracer */
-export default withTracker(({ findConfiguration }) => {
+/*export default withTracker(({ findConfiguration }) => {
 
     // Get access to Stuff documents.
     const subscription = Meteor.subscribe('StoreCategory', findConfiguration);
@@ -64,4 +62,4 @@ export default withTracker(({ findConfiguration }) => {
         storeCategory: StoreCategory.find().fetch(),
         ready: subscription.ready(),
     };
-})(ListStoreCategory);
+})(ListStoreCategory);*/

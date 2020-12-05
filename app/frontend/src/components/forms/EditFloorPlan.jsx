@@ -3,11 +3,10 @@ import { observer } from 'mobx-react';
 import { Loader, Label, Segment, Form } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { cloneDeep, toNumber, isNaN } from 'lodash';
-// import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import { getCategoryList } from '../../../api/ref/ProductsCatagoryApi';
-import { getUnitTypeList } from '../../../api/ref/FloorUnitsTypeApi';
-import { insert, update, getById } from '../../../api/StoresApi';
+import { getCategoryList } from '../../../../imports/api/ref/ProductsCatagoryApi';
+import { getUnitTypeList } from '../../../../imports/api/ref/FloorUnitsTypeApi';
+import { insert, update, getById } from '../../../../imports/api/StoresApi';
 import FormListComponent from '../formList/FormListComponent';
 import StateManager from '../../stateManager/StateManager';
 

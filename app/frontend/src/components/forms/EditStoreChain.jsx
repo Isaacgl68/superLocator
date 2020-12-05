@@ -1,50 +1,42 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { reaction } from 'mobx';
-import { Grid, Loader, Header, Segment, Form } from 'semantic-ui-react';
+import { Grid, Loader, Dropdown, Segment, Form } from 'semantic-ui-react';
 import swal from 'sweetalert';
-import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import { insert, update, getById } from '../../../api/ref/StoreCatagoryApi';
+import { reaction } from 'mobx';
 import StateManager from '../../stateManager/StateManager';
+import { insert, update, getById } from '../../../../imports/api/ref/StoresChainsApi';
+import { getCategoryList } from '../../../../imports/api/ref/StoreCatagoryApi';
 
 const initData = {
+    name: '',
     category: '',
 };
 
 @observer
-class EditStoreCategory extends React.Component {
+class EditStoreChain extends React.Component {
 
     state = {
         activeData: {
+            name: '',
             category: '',
         },
         ready: true,
         doc: undefined,
+        categoryOptions: [],
     };
 
-    constructor(props) {
-        super(props);
-        this.onDocumentUpdateReaction = this.onDocumentUpdateReaction.bind(this);
-        this.onModeReaction = this.onModeReaction.bind(this);
-    }
-
-
-    /* componentDidUpdate(prevProps) {
-        const { mode, documentId } = this.props;
-        const { doc } = this.state;
-       if (mode === 0 && documentId && documentId !== prevProps.documentId) {
-            this.getDocument(documentId);
-        } else
-            if (mode !== prevProps.mode) {
-            if (mode === 2 || !doc) {
-                this.setState({ activeData: Object.assign({}, initData) });
+    componentDidMount() {
+        getCategoryList.call({}, (err, res) => {
+            if (err) {
+                swal('Error', err.message, 'error');
             } else {
-                this.setState({ activeData: Object.assign({}, doc) });
+                const categoryOptions =
+                    res.map((cat, index) => ({ key: index, text: cat.category, value: cat.category }));
+                this.setState({ categoryOptions });
             }
-        }
-
-    } */
+        });
+    }
 
 
     onDocumentUpdateReaction = (selectedDocumentId) => {
@@ -69,7 +61,6 @@ class EditStoreCategory extends React.Component {
         this.onModeReaction,
     );
 
-
     getDocument = (_id) => {
         getById.call({ _id }, (err, res) => {
             if (err) {
@@ -79,12 +70,6 @@ class EditStoreCategory extends React.Component {
             }
         });
     }
-
-
-    /* cancel = () => {
-      this.setState({ activeData: Object.assign({}, this.props.doc) });
-    }
-     */
 
     /** On successful submit, insert the data. */
     submit = () => {
@@ -110,26 +95,36 @@ class EditStoreCategory extends React.Component {
         return (this.state.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
     }
 
-    onCategoryChange = (event) => {
+    onNameChange = (event) => {
         const { activeData } = this.state;
-        activeData.category = event.target.value;
+        activeData.name = event.target.value;
+        this.setState({ activeData: Object.assign({}, activeData) });
+    }
+
+    onCategoryChange = (event, data) => {
+        const { activeData } = this.state;
+        activeData.category = data.value;
         this.setState({ activeData: Object.assign({}, activeData) });
     }
 
     renderPage() {
         const formIsReadOnly = StateManager.mode === 0;
-        const { activeData } = this.state;
+        const { activeData, categoryOptions } = this.state;
         return (
             <Form>
-                <Form.Input required fluid label='Category' placeholder='Category'
-                            value={activeData.category} onChange={this.onCategoryChange}
+                <Form.Input required fluid label='Chain Name' placeholder='Chain Name'
+                            value={activeData.name} onChange={this.onNameChange}
                             readOnly={formIsReadOnly}/>
+                <Form.Dropdown required label='Category' placeholder='Category'
+                            value={activeData.category} onChange={this.onCategoryChange}
+                            options={categoryOptions}
+                            disabled={formIsReadOnly}/>
             </Form>
         );
     }
 }
 
-EditStoreCategory.propTypes = {
+EditStoreChain.propTypes = {
 };
 
-export default EditStoreCategory;
+export default EditStoreChain;

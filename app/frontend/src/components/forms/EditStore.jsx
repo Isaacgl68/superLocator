@@ -5,9 +5,9 @@ import swal from 'sweetalert';
 import { cloneDeep, toNumber } from 'lodash';
 import StateManager from '../../stateManager/StateManager';
 import PropTypes from 'prop-types';
-import { getStoreChainsList } from '../../../api/ref/StoresChainsApi';
-import { getCategoryList } from '../../../api/ref/StoreCatagoryApi';
-import { insert, update, getById } from '../../../api/StoresApi';
+import { getStoreChainsList } from '../../../../imports/api/ref/StoresChainsApi';
+import { getCategoryList } from '../../../../imports/api/ref/StoreCatagoryApi';
+import { insert, update, getById } from '../../../../imports/api/StoresApi';
 import {reaction} from "mobx";
 
 const initData = {

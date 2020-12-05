@@ -1,6 +1,8 @@
 import { observable, action } from 'mobx';
 
 class StateManager {
+
+    @observable user = { id: 1}
     @observable mode;
 
     @observable selectedDocumentId;
