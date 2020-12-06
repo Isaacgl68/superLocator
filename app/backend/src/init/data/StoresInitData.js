@@ -151,4 +151,4 @@ const StoresData = [
     },
 
 ];
-export default StoresData;
+module.exports = StoresData;

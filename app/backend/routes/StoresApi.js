@@ -1,22 +1,24 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const storesInitData = require('./../src/init/data/StoresInitData');
 
 
-/* GET floor units by id. */
+/* GET store by id. */
 router.get('/:id', function(req, res, next) {
-    res.send('respond with a resource');
+    res.json(storesInitData);
 });
 
-/* insert floor units by id. */
+/* insert store. */
 router.put('/', function(req, res, next) {
     res.send('respond with a resource');
 });
-/* update floor units by id. */
-router.post('/', function(req, res, next) {
+/* update store by id. */
+router.post('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
-/* delete floor units by id. */
-router.delete('/', function(req, res, next) {
+/* delete store by id. */
+router.delete('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
 

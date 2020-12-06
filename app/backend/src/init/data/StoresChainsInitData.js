@@ -31,4 +31,4 @@ const StoresChainsData = [
     },
 ];
 
-export default StoresChainsData;
+module.exports = StoresChainsData;

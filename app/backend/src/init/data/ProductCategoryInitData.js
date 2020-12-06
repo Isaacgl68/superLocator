@@ -27,4 +27,4 @@ const ProductCategoryData = [
         label: 'דגים קפואים',
     },
 ];
-export default ProductCategoryData;
+module.exports = ProductCategoryData;

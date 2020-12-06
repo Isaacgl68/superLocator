@@ -1,25 +1,27 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET floor units listing. */
+const storesChainsInitData = require('./../../src/init/data/StoresChainsInitData');
+
+/* GET stores Chains listing. */
 router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
+    res.json(storesChainsInitData);
 });
-/* GET floor units by id. */
+/* GET stores Chains by id. */
 router.get('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-/* insert floor units by id. */
+/* insert stores Chains. */
 router.put('/', function(req, res, next) {
     res.send('respond with a resource');
 });
-/* update floor units by id. */
-router.post('/', function(req, res, next) {
+/* update stores Chains by id. */
+router.post('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
-/* delete floor units by id. */
-router.delete('/', function(req, res, next) {
+/* delete stores Chains by id. */
+router.delete('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
 

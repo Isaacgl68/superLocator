@@ -1,25 +1,27 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const floorUnitTypeInitData = require('./../../src/init/data/FloorUnitTypeInitData');
 
 /* GET floor units listing. */
 router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
+    res.json(floorUnitTypeInitData);
 });
 /* GET floor units by id. */
 router.get('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-/* insert floor units by id. */
+/* insert floor units. */
 router.put('/', function(req, res, next) {
     res.send('respond with a resource');
 });
 /* update floor units by id. */
-router.post('/', function(req, res, next) {
+router.post('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
 /* delete floor units by id. */
-router.delete('/', function(req, res, next) {
+router.delete('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
 

@@ -1,10 +1,10 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
-import StoreCategoryData from '../../../server/init/data/StoreCategoryInitData';
-import StoresChainsData from '../../../server/init/data/StoresChainsInitData';
-import FloorUnitTypeInitData from '../../../server/init/data/FloorUnitTypeInitData';
-import ProductCategoryData from '../../../server/init/data/ProductCategoryInitData';
-import StoresData from '../../../server/init/data/StoresInitData';
+import StoreCategoryData from '../../../backend/src/init/data/StoreCategoryInitData';
+import StoresChainsData from '../../../backend/src/init/data/StoresChainsInitData';
+import FloorUnitTypeInitData from '../../../backend/src/init/data/FloorUnitTypeInitData';
+import ProductCategoryData from '../../../backend/src/init/data/ProductCategoryInitData';
+import StoresData from '../../../backend/src/init/data/StoresInitData';
 import { StoreCategory } from '../../models/ref/StoreCategory';
 import { StoresChains } from '../../models/ref/StoresChains';
 import { FloorUnitsType } from '../../models/ref/FloorUnitsType';

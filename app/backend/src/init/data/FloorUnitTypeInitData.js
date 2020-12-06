@@ -24,4 +24,4 @@ const FloorUnitsTypeData = [
         unitType: 'יציאה',
     },
 ];
-export default FloorUnitsTypeData;
+module.exports = FloorUnitsTypeData;

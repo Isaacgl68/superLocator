@@ -12,4 +12,4 @@ const StoreCategoryData = [
         category: 'ביגוד והנעלה',
     },
 ];
-export default StoreCategoryData;
+module.exports = StoreCategoryData;

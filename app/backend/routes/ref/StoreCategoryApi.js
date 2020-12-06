@@ -1,25 +1,27 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET floor units listing. */
+const storeCategoryInitData = require('./../../src/init/data/StoreCategoryInitData');
+
+/* GET store Category listing. */
 router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
+    res.json(storeCategoryInitData);
 });
-/* GET floor units by id. */
+/* GET store Category by id. */
 router.get('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-/* insert floor units by id. */
+/* insert store Category. */
 router.put('/', function(req, res, next) {
     res.send('respond with a resource');
 });
-/* update floor units by id. */
-router.post('/', function(req, res, next) {
+/* update store Category by id. */
+router.post('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
-/* delete floor units by id. */
-router.delete('/', function(req, res, next) {
+/* delete store Category by id. */
+router.delete('/:id', function(req, res, next) {
     res.send('respond with a resource');
 });
 
