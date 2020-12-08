@@ -22,13 +22,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/floorUnits', floorUnitsTypeApi);
-app.use('/productsCategory', productsCategoryApi);
-app.use('/storeCategory', storeCategoryApi);
-app.use('/storesChains', storesChainsApi);
+app.use('/api/users', usersRouter);
+app.use('/api/floorUnits', floorUnitsTypeApi);
+app.use('/api/productsCategory', productsCategoryApi);
+app.use('/api/storeCategory', storeCategoryApi);
+app.use('/api/storesChains', storesChainsApi);
 
-app.use('/floorPlanItems', floorPlanItemsApi);
-app.use('/stores', storesApi);
+app.use('/api/floorPlanItems', floorPlanItemsApi);
+app.use('/api/stores', storesApi);
 
 module.exports = app;

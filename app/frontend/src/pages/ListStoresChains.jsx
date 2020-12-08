@@ -1,11 +1,11 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
+// import { Meteor } from 'meteor/meteor';
 import {Container, Table, Header, Loader, Input} from 'semantic-ui-react';
 import { observer } from 'mobx-react';
-import StoresChainsItem from '/imports/ui/components/StoresChainsItem';
-import { withTracker } from 'meteor/react-meteor-data';
+import StoresChainsItem from '../components/StoresChainsItem';
+// import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { StoresChains } from '../../../imports/models/ref/StoresChains';
+// import { StoresChains } from '../../../imports/models/ref/StoresChains';
 import StateManager from '../stateManager/StateManager';
 
 

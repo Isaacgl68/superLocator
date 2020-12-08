@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Table, Loader } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
-import StoresItem from '/imports/ui/components/StoresItem';
+import StoresItem from '../components/StoresItem';
 import PropTypes from 'prop-types';
-import { Stores } from '../../../imports/models/app/stores/Stores';
+// import { Stores } from '../../../imports/models/app/stores/Stores';
 import StateManager from '../stateManager/StateManager';
 
 

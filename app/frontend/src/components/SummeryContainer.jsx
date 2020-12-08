@@ -19,14 +19,14 @@ class SummeryContainer extends Component {
 
     getListComponent() {
         const { listName } = this.props;
+        const { findConfig } = this.state;
         switch (listName) {
             case 'StoreCategory':
-                return <ListStoreCategory findConfiguration={this.state.findConfig}
-                                          ></ListStoreCategory>;
+                return <ListStoreCategory findConfiguration={findConfig}/>;
             case 'StoresChains':
-                return <ListStoresChains findConfiguration={this.state.findConfig}></ListStoresChains>;
+                return <ListStoresChains findConfiguration={findConfig}/>;
             case 'Stores':
-                return <ListStores findConfiguration={this.state.findConfig}></ListStores>;
+                return <ListStores findConfiguration={findConfig}/>;
             default:
                 return <div>list not found error</div>;
 

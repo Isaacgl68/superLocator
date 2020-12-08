@@ -5,9 +5,7 @@ import { cloneDeep } from 'lodash';
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
 import { reaction } from "mobx";
-import { insert, update, getById } from '../../../../imports/api/FloorPlenItemsApi';
-import { getCategoryList } from '../../../../imports/api/ref/ProductsCatagoryApi';
-import { getUnitTypeList } from '../../../../imports/api/ref/FloorUnitsTypeApi';
+import { floorPlanItemsApi, productsCategoryApi, floorUnitsTypeApi  } from '../../api/Api.js';
 import StateManager from '../../stateManager/StateManager';
 
 const initData = {
@@ -34,24 +32,28 @@ class EditFloorItem extends React.Component {
     };
 
     componentDidMount() {
-        getCategoryList.call({}, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+        productsCategoryApi.getList().then(
+            (res) => {
                 const productsCategoriesOptions =
                     res.map((cat, index) => ({ key: index, text: cat.label, value: cat.label }));
                 this.setState({ productsCategoriesOptions });
-            }
-        });
-        getUnitTypeList.call({}, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+
+            });
+        floorUnitsTypeApi.getList().then(
+            (res) => {
                 const unitTypeOptions =
                     res.map((unit, index) => ({ key: index, text: unit.unitType, value: unit.unitType }));
                 this.setState({ unitTypeOptions });
-            }
-        });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+
+            });
     }
 
     onDocumentUpdateReaction = (selectedDocumentId) => {
@@ -76,14 +78,16 @@ class EditFloorItem extends React.Component {
         this.onModeReaction,
     );
 
-    getDocument = (_id) => {
-        getById.call({ _id }, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+    getDocument = (id) => {
+
+        floorPlanItemsApi.getById(id).then(
+            (res) => {
                 this.setState({ doc: res, activeData: cloneDeep(res) });
-            }
-        });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+            });
     }
 
 
@@ -97,20 +101,18 @@ class EditFloorItem extends React.Component {
         const that = this;
         const mode = StateManager.mode;
         const activeDate = this.state.activeData;
-        return new Promise(function (resolve, reject) {
-            const callApi = (mode === 1) ? update : insert;
-            callApi.call(activeDate, (err) => {
+        const callApi = (mode === 1) ? floorPlanItemsApi.update : floorPlanItemsApi.insert;
+        return callApi(activeDate).then(
+            (res) => {
+                that.setState({ doc: Object.assign({}, res) });
+                return res;
+            },(err) => {
                 if (err) {
                     swal('Error', err.message, 'error');
-                    reject(err);
-                } else {
-                    // swal('Success', 'Item Inserted successfully', 'success');
-                    that.setState({ doc: Object.assign({}, activeDate) }, function () {
-                        resolve(1);
-                    });
                 }
-            });
-        });
+                return err;
+            }
+        );
     }
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */

@@ -5,9 +5,8 @@ import swal from 'sweetalert';
 import { cloneDeep, toNumber } from 'lodash';
 import StateManager from '../../stateManager/StateManager';
 import PropTypes from 'prop-types';
-import { getStoreChainsList } from '../../../../imports/api/ref/StoresChainsApi';
-import { getCategoryList } from '../../../../imports/api/ref/StoreCatagoryApi';
-import { insert, update, getById } from '../../../../imports/api/StoresApi';
+import {storesApi, storesChainsApi, storeCategoryApi} from '../../api/Api.js';
+
 import {reaction} from "mobx";
 
 const initData = {
@@ -38,24 +37,29 @@ class EditStore extends React.Component {
     };
 
     componentDidMount() {
-        getCategoryList.call({}, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+
+        storeCategoryApi.getList().then(
+            (res) => {
                 const categoryOptions =
                     res.map((cat, index) => ({ key: index, text: cat.category, value: cat.category }));
                 this.setState({ categoryOptions });
-            }
-        });
-        getStoreChainsList.call({}, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+
+            });
+        storesChainsApi.getList().then(
+            (res) => {
                 const storeChainsOptions =
                     res.map((chain, index) => ({ key: index, text: chain.name, value: chain.name }));
                 this.setState({ storeChainsOptions });
-            }
-        });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+
+            });
     }
 
     onDocumentUpdateReaction = (selectedDocumentId) => {
@@ -80,14 +84,16 @@ class EditStore extends React.Component {
         this.onModeReaction,
     );
 
-    getDocument = (_id) => {
-        getById.call({ _id }, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+    getDocument = (id) => {
+
+        storesApi.getById(id).then(
+            (res) => {
                 this.setState({ doc: res, activeData: cloneDeep(res) });
-            }
-        });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+            });
     }
 
 
@@ -104,18 +110,18 @@ class EditStore extends React.Component {
         activeDate.location.long = (activeDate.location.long) ? toNumber(activeDate.location.long) : undefined;
         activeDate.location.lat = (activeDate.location.lat) ? toNumber(activeDate.location.lat) : undefined;
 
-        return new Promise(function (resolve, reject) {
-            const callApi = (mode === 1) ? update : insert;
-            callApi.call(activeDate, (err) => {
+        const callApi = (mode === 1) ? storesApi.update : storesApi.insert;
+        return callApi(activeDate).then(
+            (res) => {
+                that.setState({ doc: Object.assign({}, res) });
+                return res;
+            },(err) => {
                 if (err) {
                     swal('Error', err.message, 'error');
-                    reject(err);
-                } else {
-                    // swal('Success', 'Item Inserted successfully', 'success');
-                    that.setState({ doc: cloneDeep(activeDate) }, function () { resolve(1); });
                 }
-            });
-        });
+                return err;
+            }
+        );
     }
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */

@@ -4,10 +4,8 @@ import { Loader, Label, Segment, Form } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { cloneDeep, toNumber, isNaN } from 'lodash';
 import PropTypes from 'prop-types';
-import { getCategoryList } from '../../../../imports/api/ref/ProductsCatagoryApi';
-import { getUnitTypeList } from '../../../../imports/api/ref/FloorUnitsTypeApi';
-import { insert, update, getById } from '../../../../imports/api/StoresApi';
-import FormListComponent from '../formList/FormListComponent';
+import {storesApi, productsCategoryApi, floorUnitsTypeApi} from '../../api/Api.js';
+// import FormListComponent from '../formList/FormListComponent';
 import StateManager from '../../stateManager/StateManager';
 
 
@@ -29,25 +27,30 @@ class EditFloorPlan extends React.Component {
         productsCategoriesOptions: [],
     };
 
+
     componentDidMount() {
-        getCategoryList.call({}, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+        productsCategoryApi.getList().then(
+            (res) => {
                 const productsCategoriesOptions =
                     res.map((cat, index) => ({ key: index, text: cat.label, value: cat.label }));
                 this.setState({ productsCategoriesOptions });
-            }
-        });
-        getUnitTypeList.call({}, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+
+            });
+        floorUnitsTypeApi.getList().then(
+            (res) => {
                 const unitTypeOptions =
-                    res.map((unit, index) => ({ key: index, text: unit.unitType, value: unit }));
+                    res.map((unit, index) => ({ key: index, text: unit.unitType, value: unit.unitType }));
                 this.setState({ unitTypeOptions });
-            }
-        });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+
+            });
     }
 
     componentDidUpdate(prevProps) {
@@ -65,14 +68,16 @@ class EditFloorPlan extends React.Component {
 
     }
 
-    getDocument = (_id) => {
-        getById.call({ _id }, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+    getDocument = (id) => {
+
+        storesApi.getById(id).then(
+            (res) => {
                 this.setState({ doc: res, activeData: cloneDeep(res) });
-            }
-        });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+            });
     }
 
 
@@ -84,23 +89,20 @@ class EditFloorPlan extends React.Component {
     /** On successful submit, insert the data. */
     submit = () => {
         const that = this;
-        const mode = this.props.mode;
+        const mode = StateManager.mode;
         const activeDate = this.state.activeData;
-        // activeDate.location.long = (activeDate.location.long) ? toNumber(activeDate.location.long) : undefined;
-        // activeDate.location.lat = (activeDate.location.lat) ? toNumber(activeDate.location.lat) : undefined;
-
-        return new Promise(function (resolve, reject) {
-            const callApi = (mode === 1) ? update : insert;
-            callApi.call(activeDate, (err) => {
+        const callApi = (mode === 1) ? storesApi.update : storesApi.insert;
+        return callApi(activeDate).then(
+            (res) => {
+                that.setState({ doc: Object.assign({}, res) });
+                return res;
+            },(err) => {
                 if (err) {
                     swal('Error', err.message, 'error');
-                    reject(err);
-                } else {
-                    // swal('Success', 'Item Inserted successfully', 'success');
-                    that.setState({ doc: cloneDeep(activeDate) }, function () { resolve(1); });
                 }
-            });
-        });
+                return err;
+            }
+        );
     }
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */

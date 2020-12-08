@@ -4,8 +4,9 @@ import { reaction } from 'mobx';
 import { Grid, Loader, Header, Segment, Form } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
-import { insert, update, getById } from '../../../../imports/api/ref/StoreCatagoryApi';
+import { storeCategoryApi } from '../../api/Api.js';
 import StateManager from '../../stateManager/StateManager';
+import {cloneDeep} from "lodash";
 
 const initData = {
     category: '',
@@ -69,14 +70,15 @@ class EditStoreCategory extends React.Component {
     );
 
 
-    getDocument = (_id) => {
-        getById.call({ _id }, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
-                this.setState({ doc: res, activeData: Object.assign({}, res) });
-            }
-        });
+    getDocument = (id) => {
+        storeCategoryApi.getById(id).then(
+            (res) => {
+                this.setState({ doc: res, activeData: cloneDeep(res) });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+            });
     }
 
 
@@ -90,18 +92,18 @@ class EditStoreCategory extends React.Component {
         const that = this;
         const mode = StateManager.mode;
         const activeDate = this.state.activeData;
-        return new Promise(function (resolve, reject) {
-            const callApi = (mode === 1) ? update : insert;
-            callApi.call(activeDate, (err) => {
+        const callApi = (mode === 1) ? storeCategoryApi.update : storeCategoryApi.insert;
+        return callApi(activeDate).then(
+            (res) => {
+                that.setState({ doc: Object.assign({}, res) });
+                return res;
+            },(err) => {
                 if (err) {
                     swal('Error', err.message, 'error');
-                    reject(err);
-                } else {
-                    // swal('Success', 'Item Inserted successfully', 'success');
-                    that.setState({ doc: Object.assign({}, activeDate) }, function () { resolve(1); });
                 }
-            });
-        });
+                return err;
+            }
+        );
     }
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */

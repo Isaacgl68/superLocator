@@ -1,9 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Container, Table, Loader } from 'semantic-ui-react';
-import FloorPlanItemsListItem from '/imports/ui/components/FloorPlanItemsListItem';
+import FloorPlanItemsListItem from "../components/FloorPlanItemsListItem";
 import PropTypes from 'prop-types';
-import { FloorPlanItems } from '../../../imports/models/app/floor/FloorPlanItems';
+// import { FloorPlanItems } from '../../../imports/models/app/floor/FloorPlanItems';
 import StateManager from '../stateManager/StateManager';
 
 

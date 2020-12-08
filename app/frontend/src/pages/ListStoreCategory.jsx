@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Table, Header, Loader, Input } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
-import StoreCategoryItem from '/imports/ui/components/StoreCategoryItem';
+import StoreCategoryItem from '../components/StoreCategoryItem';
 import PropTypes from 'prop-types';
-import { StoreCategory } from '../../../imports/models/ref/StoreCategory';
+// import { StoreCategory } from '../../../imports/models/ref/StoreCategory';
 import StateManager from "../stateManager/StateManager";
 
 

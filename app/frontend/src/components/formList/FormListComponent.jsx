@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion, Icon, Label, Form, Grid, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import EditFloorPlan from '../forms/EditFloorPlan';
+// import EditFloorPlan from '../forms/EditFloorPlan';
 
 
 class FormListComponent extends React.Component {

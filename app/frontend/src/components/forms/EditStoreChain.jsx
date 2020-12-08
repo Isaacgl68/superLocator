@@ -5,8 +5,8 @@ import swal from 'sweetalert';
 import PropTypes from 'prop-types';
 import { reaction } from 'mobx';
 import StateManager from '../../stateManager/StateManager';
-import { insert, update, getById } from '../../../../imports/api/ref/StoresChainsApi';
-import { getCategoryList } from '../../../../imports/api/ref/StoreCatagoryApi';
+import {storesChainsApi, storeCategoryApi} from '../../api/Api.js';
+import {cloneDeep} from "lodash";
 
 const initData = {
     name: '',
@@ -27,15 +27,17 @@ class EditStoreChain extends React.Component {
     };
 
     componentDidMount() {
-        getCategoryList.call({}, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
+        storeCategoryApi.getList().then(
+            (res) => {
                 const categoryOptions =
                     res.map((cat, index) => ({ key: index, text: cat.category, value: cat.category }));
                 this.setState({ categoryOptions });
-            }
-        });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+
+            });
     }
 
 
@@ -61,14 +63,15 @@ class EditStoreChain extends React.Component {
         this.onModeReaction,
     );
 
-    getDocument = (_id) => {
-        getById.call({ _id }, (err, res) => {
-            if (err) {
-                swal('Error', err.message, 'error');
-            } else {
-                this.setState({ doc: res, activeData: Object.assign({}, res) });
-            }
-        });
+    getDocument = (id) => {
+        storesChainsApi.getById(id).then(
+            (res) => {
+                this.setState({ doc: res, activeData: cloneDeep(res) });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                }
+            });
     }
 
     /** On successful submit, insert the data. */
@@ -76,18 +79,18 @@ class EditStoreChain extends React.Component {
         const that = this;
         const mode = StateManager.mode;
         const activeDate = this.state.activeData;
-        return new Promise(function (resolve, reject) {
-            const callApi = (mode === 1) ? update : insert;
-            callApi.call(activeDate, (err) => {
+        const callApi = (mode === 1) ? storesChainsApi.update : storesChainsApi.insert;
+        return callApi(activeDate).then(
+            (res) => {
+                that.setState({ doc: Object.assign({}, res) });
+                return res;
+            },(err) => {
                 if (err) {
                     swal('Error', err.message, 'error');
-                    reject(err);
-                } else {
-                    // swal('Success', 'Item Inserted successfully', 'success');
-                    that.setState({ doc: Object.assign({}, activeDate) }, function () { resolve(1); });
                 }
-            });
-        });
+                return err;
+            }
+        );
     }
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
