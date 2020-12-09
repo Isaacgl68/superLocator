@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 /* GET store Category by id. */
 router.get('/:id', function(req, res, next) {
-    res.send('respond with a resource');
+    res.json(storeCategoryInitData.find(element => element._id === req.params.id));
 });
 
 /* insert store Category. */

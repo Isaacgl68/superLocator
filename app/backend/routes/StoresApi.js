@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const storesInitData = require('./../src/init/data/StoresInitData');
-
+router.get('/', function(req, res, next) {
+    res.json(storesInitData);
+});
 
 /* GET store by id. */
 router.get('/:id', function(req, res, next) {
-    res.json(storesInitData);
+    res.json(storesInitData.find(element => element._id === req.params.id));
 });
 
 /* insert store. */

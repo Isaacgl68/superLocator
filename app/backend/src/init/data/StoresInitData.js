@@ -15,6 +15,7 @@ const StoresData = [
         },
     }, */
     {
+        _id: '1',
         name: 'ויקטורי פארק אפק',
         chain: 'ויקטורי',
         category: 'סופרמרקט',
@@ -30,6 +31,7 @@ const StoresData = [
         },
     },
     {
+        _id: '2',
         name: 'סופרסל לב אפק',
         chain: 'סופרסל',
         category: 'סופרמרקט',
@@ -45,6 +47,7 @@ const StoresData = [
         },
     },
     {
+        _id: '3',
         name: 'סופרסל גבעת טל',
         chain: 'סופרסל',
         category: 'סופרמרקט',
@@ -60,6 +63,7 @@ const StoresData = [
         },
     },
     {
+        _id: '4',
         name: 'סופרסל רעננה',
         chain: 'סופרסל',
         category: 'סופרמרקט',
@@ -75,6 +79,7 @@ const StoresData = [
         },
     },
     {
+        _id: '5',
         name: 'סופרסל כפר סבא',
         chain: 'סופרסל',
         category: 'סופרמרקט',
@@ -90,6 +95,7 @@ const StoresData = [
         },
     },
     {
+        _id: '6',
         name: 'סופרסל אלנבי',
         chain: 'סופרסל',
         category: 'סופרמרקט',
@@ -105,6 +111,7 @@ const StoresData = [
         },
     },
     {
+        _id: '7',
         name: 'סופרסל דיזינגוף',
         chain: 'סופרסל',
         category: 'סופרמרקט',
@@ -120,6 +127,7 @@ const StoresData = [
         },
     },
     {
+        _id: '8',
         name: 'רמי לוי לב הארץ',
         chain: 'רמי לוי',
         category: 'סופרמרקט',
@@ -135,6 +143,7 @@ const StoresData = [
         },
     },
     {
+        _id: '9',
         name: 'קינג סטור לב הארץ',
         chain: 'קינג סטור',
         category: 'סופרמרקט',

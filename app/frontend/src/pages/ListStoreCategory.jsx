@@ -5,17 +5,33 @@ import StoreCategoryItem from '../components/StoreCategoryItem';
 import PropTypes from 'prop-types';
 // import { StoreCategory } from '../../../imports/models/ref/StoreCategory';
 import StateManager from "../stateManager/StateManager";
+import {storeCategoryApi} from "../api/Api";
+import swal from "sweetalert";
 
 
 @observer
 class ListStoreCategory extends React.Component {
     state = {
         selectedRow: null,
+        storeCategory: [],
+        ready: false
     };
+
+    componentDidMount() {
+        storeCategoryApi.getList().then(
+            (res) => {
+                this.setState({ storeCategory: res, ready: true });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                    this.setState({ ready: true });
+                }
+            });
+    }
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
     render() {
-        return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+        return (this.state.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
     }
 
     onRowClick= (id) => {
@@ -34,7 +50,7 @@ class ListStoreCategory extends React.Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.props.storeCategory.map((storeCategory) => (
+                    {this.state.storeCategory.map((storeCategory) => (
                         <StoreCategoryItem key={storeCategory._id}
                                            onRowClick={this.onRowClick}
                                            isActive={storeCategory._id === StateManager.selectedDocumentId}
@@ -48,8 +64,6 @@ class ListStoreCategory extends React.Component {
 
 /** Require an array of Stuff documents in the props. */
 ListStoreCategory.propTypes = {
-    storeCategory: PropTypes.array.isRequired,
-    ready: PropTypes.bool.isRequired,
     onItemSelected: PropTypes.func,
 };
 export default ListStoreCategory;

@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 /* GET  product Category by id. */
 router.get('/:id', function(req, res, next) {
-    res.send('respond with a resource');
+    res.json(productCategoryInitData.find(element => element._id === req.params.id));
 });
 
 /* insert  product Category by id. */

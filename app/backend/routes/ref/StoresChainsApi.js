@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 /* GET stores Chains by id. */
 router.get('/:id', function(req, res, next) {
-    res.send('respond with a resource');
+    res.json(storesChainsInitData.find(element => element._id === req.params.id));
 });
 
 /* insert stores Chains. */

@@ -5,12 +5,28 @@ import FloorPlanItemsListItem from "../components/FloorPlanItemsListItem";
 import PropTypes from 'prop-types';
 // import { FloorPlanItems } from '../../../imports/models/app/floor/FloorPlanItems';
 import StateManager from '../stateManager/StateManager';
+import {floorPlanItemsApi} from "../api/Api";
+import swal from "sweetalert";
 
 
 @observer
 class ListFloorPlanItems extends React.Component {
     state = {
+        floorPlanItems:[],
+        ready: false
     };
+
+    componentDidMount() {
+        floorPlanItemsApi.getList().then(
+            (res) => {
+                this.setState({ floorPlanItems: res, ready: true });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                    this.setState({ ready: true });
+                }
+            });
+    }
 
     onRowClick= (id) => {
         if (StateManager.mode > 0) return;
@@ -19,7 +35,7 @@ class ListFloorPlanItems extends React.Component {
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
     render() {
-        return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+        return (this.state.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
     }
 
     /** Render the page once subscriptions have been received. */
@@ -37,7 +53,7 @@ class ListFloorPlanItems extends React.Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.props.floorPlanItems.map((floorPlanItems) => (
+                    {this.state.floorPlanItems.map((floorPlanItems) => (
                         <FloorPlanItemsListItem
                             key={floorPlanItems._id}
                             floorPlanItem={floorPlanItems}
@@ -52,8 +68,6 @@ class ListFloorPlanItems extends React.Component {
 }
 
 ListFloorPlanItems.propTypes = {
-    floorPlanItems: PropTypes.array.isRequired,
-    ready: PropTypes.bool.isRequired,
     onItemSelected: PropTypes.func
 };
 

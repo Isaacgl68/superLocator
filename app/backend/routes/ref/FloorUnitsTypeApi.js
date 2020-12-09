@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 /* GET floor units by id. */
 router.get('/:id', function(req, res, next) {
-    res.send('respond with a resource');
+    res.json(floorUnitTypeInitData.find(element => element._id === req.params.id));
 });
 
 /* insert floor units. */

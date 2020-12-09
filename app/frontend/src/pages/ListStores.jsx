@@ -5,13 +5,29 @@ import StoresItem from '../components/StoresItem';
 import PropTypes from 'prop-types';
 // import { Stores } from '../../../imports/models/app/stores/Stores';
 import StateManager from '../stateManager/StateManager';
+import {storesApi} from "../api/Api";
+import swal from "sweetalert";
+
 
 
 @observer
 class ListStores extends React.Component {
     state = {
-        selectedRow: null,
+        stores: [],
+        ready: false
     };
+
+    componentDidMount() {
+        storesApi.getList().then(
+            (res) => {
+                this.setState({ stores: res, ready: true });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                    this.setState({ ready: true });
+                }
+            });
+    }
 
     onRowClick= (id) => {
         if (StateManager.mode > 0) return;
@@ -20,7 +36,7 @@ class ListStores extends React.Component {
 
     /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
     render() {
-        return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+        return (this.state.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
     }
 
     /** Render the page once subscriptions have been received. */
@@ -39,7 +55,7 @@ class ListStores extends React.Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.props.stores.map((store) => (
+                    {this.state.stores.map((store) => (
                         <StoresItem
                             key={store._id}
                             store={store}
@@ -55,8 +71,6 @@ class ListStores extends React.Component {
 
 /** Require an array of Stuff documents in the props. */
 ListStores.propTypes = {
-    stores: PropTypes.array.isRequired,
-    ready: PropTypes.bool.isRequired,
     onItemSelected: PropTypes.func,
 };
 export default ListStores;
