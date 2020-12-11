@@ -10,7 +10,7 @@ class NavBar extends React.Component {
     const menuStyle = { marginBottom: '10px' };
     const   currentUser =  userUtils.user() ? userUtils.user().username : ''
     return (
-      <Menu style={menuStyle} fixed="top" borderless inverted>
+      <Menu style={menuStyle}  borderless inverted>
         <Menu.Item as={NavLink} activeClassName="" exact to="/">
           <Header inverted as='h1'>Super Locator</Header>
         </Menu.Item>

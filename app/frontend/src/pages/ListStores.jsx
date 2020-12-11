@@ -18,6 +18,7 @@ class ListStores extends React.Component {
     };
 
     componentDidMount() {
+        StateManager.setSelectedDocumentId(undefined);
         storesApi.getList().then(
             (res) => {
                 this.setState({ stores: res, ready: true });

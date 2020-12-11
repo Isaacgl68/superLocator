@@ -17,11 +17,13 @@ class ContentContainer extends Component {
         StateManager.setState({ mode: 0, selectedDocumentId: null });
     }
 
+
+
     componentDidUpdate(prevProps) {
 
-        if (get(this.props, 'match.params.listName') !== get(prevProps, 'match.params.listName')) {
+       // if (get(this.props, 'match.params.listName') !== get(prevProps, 'match.params.listName')) {
 
-        }
+      //  }
     }
 
     getMainAriaComponent(match) {

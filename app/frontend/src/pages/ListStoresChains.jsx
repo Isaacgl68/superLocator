@@ -20,6 +20,7 @@ class ListStoresChains extends React.Component {
     };
 
     componentDidMount() {
+        StateManager.setSelectedDocumentId(undefined);
         storesChainsApi.getList().then(
             (res) => {
                 this.setState({ storesChains: res, ready: true });

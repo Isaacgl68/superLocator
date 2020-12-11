@@ -17,6 +17,7 @@ class ListFloorPlanItems extends React.Component {
     };
 
     componentDidMount() {
+        StateManager.setSelectedDocumentId(undefined);
         floorPlanItemsApi.getList().then(
             (res) => {
                 this.setState({ floorPlanItems: res, ready: true });

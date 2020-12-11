@@ -17,10 +17,7 @@ const initData = {
 class EditStoreChain extends React.Component {
 
     state = {
-        activeData: {
-            name: '',
-            category: '',
-        },
+        activeData: initData,
         ready: true,
         doc: undefined,
         categoryOptions: [],
@@ -38,6 +35,18 @@ class EditStoreChain extends React.Component {
                 }
 
             });
+        if (StateManager.selectedDocumentId){
+            this.getDocument(StateManager.selectedDocumentId);
+        }
+        this.onDocumentUpdate = reaction(
+            () => (StateManager.selectedDocumentId),
+            this.onDocumentUpdateReaction,
+        );
+
+        this.onModeUpdate = reaction(
+            () => (StateManager.mode),
+            this.onModeReaction,
+        );
     }
 
 
@@ -53,15 +62,12 @@ class EditStoreChain extends React.Component {
         }
     }
 
-    onDocumentUpdate = reaction(
-        () => (StateManager.selectedDocumentId),
-        this.onDocumentUpdateReaction,
-    );
 
-    onModeUpdate = reaction(
-        () => (StateManager.mode),
-        this.onModeReaction,
-    );
+    componentWillUnmount() {
+        this.onModeUpdate();
+        this.onDocumentUpdate();
+
+    }
 
     getDocument = (id) => {
         storesChainsApi.getById(id).then(

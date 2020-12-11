@@ -60,6 +60,26 @@ class EditStore extends React.Component {
                 }
 
             });
+        if (StateManager.selectedDocumentId){
+            this.getDocument(StateManager.selectedDocumentId);
+        }
+        this.onDocumentUpdate = reaction(
+            () => (StateManager.selectedDocumentId),
+            this.onDocumentUpdateReaction,
+        );
+
+        this.onModeUpdate = reaction(
+            () => (StateManager.mode),
+            this.onModeReaction,
+        );
+
+
+    }
+
+    componentWillUnmount() {
+        this.onModeUpdate();
+        this.onDocumentUpdate();
+
     }
 
     onDocumentUpdateReaction = (selectedDocumentId) => {
@@ -74,15 +94,9 @@ class EditStore extends React.Component {
         }
     }
 
-    onDocumentUpdate = reaction(
-        () => (StateManager.selectedDocumentId),
-        this.onDocumentUpdateReaction,
-    );
 
-    onModeUpdate = reaction(
-        () => (StateManager.mode),
-        this.onModeReaction,
-    );
+
+
 
     getDocument = (id) => {
 

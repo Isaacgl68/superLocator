@@ -12,12 +12,12 @@ import swal from "sweetalert";
 @observer
 class ListStoreCategory extends React.Component {
     state = {
-        selectedRow: null,
         storeCategory: [],
         ready: false
     };
 
     componentDidMount() {
+        StateManager.setSelectedDocumentId(undefined);
         storeCategoryApi.getList().then(
             (res) => {
                 this.setState({ storeCategory: res, ready: true });
