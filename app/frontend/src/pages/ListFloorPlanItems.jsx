@@ -18,9 +18,9 @@ class ListFloorPlanItems extends React.Component {
 
     componentDidMount() {
         StateManager.setSelectedDocumentId(undefined);
-        floorPlanItemsApi.getList().then(
+        floorPlanItemsApi.getById(this.props.storeId).then(
             (res) => {
-                this.setState({ floorPlanItems: res, ready: true });
+                this.setState({ floorPlanItems: res.items, ready: true });
             },(err) => {
                 if (err) {
                     swal('Error', err.message, 'error');

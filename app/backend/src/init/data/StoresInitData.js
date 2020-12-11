@@ -29,6 +29,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
+        floorPlan: { floorNumber: 1, width: 20, height: 20 },
     },
     {
         _id: '2',
@@ -45,6 +46,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
+        floorPlan: { floorNumber: 1, width: 20, height: 20 },
     },
     {
         _id: '3',
@@ -61,6 +63,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
+        floorPlan: { floorNumber: 1, width: 20, height: 20 },
     },
     {
         _id: '4',
@@ -77,6 +80,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
+        floorPlan: { floorNumber: 1, width: 20, height: 20 },
     },
     {
         _id: '5',
@@ -93,6 +97,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
+        floorPlan: { floorNumber: 1, width: 20, height: 20 },
     },
     {
         _id: '6',
@@ -109,6 +114,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
+        floorPlan: { floorNumber: 1, width: 20, height: 20 },
     },
     {
         _id: '7',
@@ -125,6 +131,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
+        floorPlan: { floorNumber: 1, width: 20, height: 20 },
     },
     {
         _id: '8',
@@ -141,6 +148,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
+        floorPlan: { floorNumber: 1, width: 20, height: 20 },
     },
     {
         _id: '9',
@@ -157,6 +165,7 @@ const StoresData = [
             lat: 0.76655554,
             long: -0.9887776,
         },
+        floorPlan: { floorNumber: 1, width: 20, height: 20 },
     },
 
 ];

@@ -4,7 +4,7 @@ const router = express.Router();
 
 /* GET floor plan item by id. */
 router.get('/:id', function(req, res, next) {
-    res.send('respond with a resource');
+    res.send({ items:[] });
 });
 
 /* insert floor plan item. */
