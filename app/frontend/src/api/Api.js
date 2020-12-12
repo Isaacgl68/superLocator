@@ -7,22 +7,22 @@ export class BaseCrudApi  {
 
     baseApiName =  '';
 
-    getList() {
+    getList =  () => {
         return get(`${BASE_API}${this.baseApiName}`)
     }
 
-    getById(id) {
+    getById = (id) => {
         return get(`${BASE_API}${this.baseApiName}/${id}`);
     }
-    insert(data) {
+    insert = (data) => {
         return put(`${BASE_API}${this.baseApiName}`, data);
     }
 
-    update(data) {
+    update = (data) => {
         return post(`${BASE_API}${this.baseApiName}/${data._id}`, data);
     }
 
-    delete(id) {
+    delete = (id) => {
         return delete (`${BASE_API}${this.baseApiName}/${id}`);
     }
 
@@ -43,6 +43,9 @@ class StoreCategoryApi extends BaseCrudApi {
 }
 class FloorPlanItemsApi extends BaseCrudApi {
     baseApiName =  'floorPlanItems';
+    getList = (storeId) => {
+        return get(`${BASE_API}${this.baseApiName}/store/${storeId}`)
+    }
 }
 class StoresApi extends BaseCrudApi {
     baseApiName =  'stores';

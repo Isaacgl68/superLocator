@@ -41,7 +41,7 @@ class FloorPlanContainer extends Component {
     }
 
     // eslint-disable-next-line no-unused-vars
-    getMainAriaComponent(match) {
+    getMainAreaComponent(match) {
         return <Tab menu={{ secondary: true, pointing: true }} panes={this.panes} />;
     }
 
@@ -52,10 +52,10 @@ class FloorPlanContainer extends Component {
             <Grid celled>
                 <Grid.Row>
                     <Grid.Column width={10}>
-                        {this.getMainAriaComponent(match)}
+                        {this.getMainAreaComponent(match)}
                     </Grid.Column>
                     <Grid.Column width={6} >
-                        <DetailsContainer formName="FloorPlanItems"></DetailsContainer>
+                        <DetailsContainer formName="FloorPlanItems" formProps={{storeId: match.params.storeId }}></DetailsContainer>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

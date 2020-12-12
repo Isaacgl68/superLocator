@@ -22,7 +22,7 @@ class DetailsContainer extends Component {
     }
 
     getFormComponent() {
-        const { formName } = this.props;
+        const { formName, formProps } = this.props;
         switch (formName) {
             case 'StoreCategory':
                 return <EditStoreCategory ref={this.formRef} />;
@@ -31,7 +31,7 @@ class DetailsContainer extends Component {
             case 'Stores':
                 return <EditStore ref={this.formRef}/>;
             case 'FloorPlanItems':
-                return <EditFloorItem ref={this.formRef}/>;
+                return <EditFloorItem ref={this.formRef} formProps={formProps} />;
             default:
                 return <div>Form not found.</div>;
         }
@@ -105,6 +105,7 @@ class DetailsContainer extends Component {
 
 DetailsContainer.propTypes = {
     formName: PropTypes.string.isRequired,
+    formProps: PropTypes.object,
 };
 
 export default DetailsContainer;

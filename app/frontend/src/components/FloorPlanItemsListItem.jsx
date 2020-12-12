@@ -19,7 +19,6 @@ class FloorPlanItemsListItem extends React.Component {
         <Table.Row onClick={this.onRowClick} active={this.props.isActive}>
             <Table.Cell>{floorPlanItem.label}</Table.Cell>
             <Table.Cell>{floorPlanItem.unitType}</Table.Cell>
-            <Table.Cell>{productsCategories}</Table.Cell>
             <Table.Cell>{floorPlanItem.x}</Table.Cell>
             <Table.Cell>{floorPlanItem.y}</Table.Cell>
             <Table.Cell>{floorPlanItem.width}</Table.Cell>

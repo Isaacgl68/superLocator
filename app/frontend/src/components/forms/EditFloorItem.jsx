@@ -1,11 +1,11 @@
 import React from 'react';
-import { observer } from 'mobx-react';
-import { Grid, Loader, Dropdown, Segment, Form } from 'semantic-ui-react';
-import { cloneDeep } from 'lodash';
+import {observer} from 'mobx-react';
+import {Grid, Loader, Dropdown, Segment, Form} from 'semantic-ui-react';
+import {cloneDeep} from 'lodash';
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
-import { reaction } from "mobx";
-import { floorPlanItemsApi, productsCategoryApi, floorUnitsTypeApi  } from '../../api/Api.js';
+import {reaction} from "mobx";
+import {floorPlanItemsApi, productsCategoryApi, floorUnitsTypeApi} from '../../api/Api.js';
 import StateManager from '../../stateManager/StateManager';
 
 const initData = {
@@ -31,13 +31,14 @@ class EditFloorItem extends React.Component {
         productsCategoriesOptions: [],
     };
 
+
     componentDidMount() {
         productsCategoryApi.getList().then(
             (res) => {
                 const productsCategoriesOptions =
-                    res.map((cat, index) => ({ key: index, text: cat.label, value: cat.label }));
-                this.setState({ productsCategoriesOptions });
-            },(err) => {
+                    res.map((cat, index) => ({key: index, text: cat.label, value: cat.label}));
+                this.setState({productsCategoriesOptions});
+            }, (err) => {
                 if (err) {
                     swal('Error', err.message, 'error');
                 }
@@ -46,48 +47,61 @@ class EditFloorItem extends React.Component {
         floorUnitsTypeApi.getList().then(
             (res) => {
                 const unitTypeOptions =
-                    res.map((unit, index) => ({ key: index, text: unit.unitType, value: unit.unitType }));
-                this.setState({ unitTypeOptions });
-            },(err) => {
+                    res.map((unit, index) => ({key: index, text: unit.unitType, value: unit.unitType}));
+                this.setState({unitTypeOptions});
+            }, (err) => {
                 if (err) {
                     swal('Error', err.message, 'error');
                 }
 
             });
+        if (StateManager.selectedDocumentId) {
+            this.getDocument(StateManager.selectedDocumentId);
+        }
+        this.onDocumentUpdate = reaction(
+            () => (StateManager.selectedDocumentId),
+            this.onDocumentUpdateReaction,
+        );
+
+        this.onModeUpdate = reaction(
+            () => (StateManager.mode),
+            this.onModeReaction,
+        );
     }
 
     onDocumentUpdateReaction = (selectedDocumentId) => {
-        if (StateManager.mode === 0 && selectedDocumentId) { this.getDocument(selectedDocumentId); }
+        if (StateManager.mode === 0 && selectedDocumentId) {
+            this.getDocument(selectedDocumentId);
+        }
     }
 
     onModeReaction = (mode) => {
         if (mode === 2 || !this.state.doc) {
-            this.setState({ activeData: cloneDeep(initData) });
+            const newData = cloneDeep(initData);
+            newData.storeId = this.props.formProps.storeId;
+            this.setState({activeData: newData});
         } else {
-            this.setState({ activeData: cloneDeep(this.state.doc) });
+            this.setState({activeData: cloneDeep(this.state.doc)});
         }
     }
 
-    onDocumentUpdate = reaction(
-        () => (StateManager.selectedDocumentId),
-        this.onDocumentUpdateReaction,
-    );
-
-    onModeUpdate = reaction(
-        () => (StateManager.mode),
-        this.onModeReaction,
-    );
 
     getDocument = (id) => {
 
         floorPlanItemsApi.getById(id).then(
             (res) => {
-                this.setState({ doc: res, activeData: cloneDeep(res) });
-            },(err) => {
+                this.setState({doc: res, activeData: cloneDeep(res)});
+            }, (err) => {
                 if (err) {
                     swal('Error', err.message, 'error');
                 }
             });
+    }
+
+    componentWillUnmount() {
+        this.onModeUpdate();
+        this.onDocumentUpdate();
+
     }
 
 
@@ -102,11 +116,12 @@ class EditFloorItem extends React.Component {
         const mode = StateManager.mode;
         const activeDate = this.state.activeData;
         const callApi = (mode === 1) ? floorPlanItemsApi.update : floorPlanItemsApi.insert;
+        console.log(activeDate);
         return callApi(activeDate).then(
             (res) => {
-                that.setState({ doc: Object.assign({}, res) });
+                that.setState({doc: Object.assign({}, res)});
                 return res;
-            },(err) => {
+            }, (err) => {
                 if (err) {
                     swal('Error', err.message, 'error');
                 }
@@ -121,50 +136,50 @@ class EditFloorItem extends React.Component {
     }
 
     onLabelChange = (event) => {
-        const { activeData } = this.state;
+        const {activeData} = this.state;
         activeData.label = event.target.value;
-        this.setState({ activeData: Object.assign({}, activeData) });
+        this.setState({activeData: Object.assign({}, activeData)});
     }
 
     onXChange = (event) => {
-        const { activeData } = this.state;
+        const {activeData} = this.state;
         activeData.x = event.target.value;
-        this.setState({ activeData: Object.assign({}, activeData) });
+        this.setState({activeData: Object.assign({}, activeData)});
     }
 
     onYChange = (event) => {
-        const { activeData } = this.state;
+        const {activeData} = this.state;
         activeData.y = event.target.value;
-        this.setState({ activeData: Object.assign({}, activeData) });
+        this.setState({activeData: Object.assign({}, activeData)});
     }
 
     onWidthChange = (event) => {
-        const { activeData } = this.state;
+        const {activeData} = this.state;
         activeData.width = event.target.value;
-        this.setState({ activeData: Object.assign({}, activeData) });
+        this.setState({activeData: Object.assign({}, activeData)});
     }
 
     onHeightChange = (event) => {
-        const { activeData } = this.state;
+        const {activeData} = this.state;
         activeData.height = event.target.value;
-        this.setState({ activeData: Object.assign({}, activeData) });
+        this.setState({activeData: Object.assign({}, activeData)});
     }
 
     onTypeChange = (event, data) => {
-        const { activeData } = this.state;
+        const {activeData} = this.state;
         activeData.unitType = data.value;
-        this.setState({ activeData: Object.assign({}, activeData) });
+        this.setState({activeData: Object.assign({}, activeData)});
     }
 
     onProductCategoryChange = (event, data) => {
-         const { activeData } = this.state;
-         activeData.unitType = data.value;
-         this.setState({ activeData: Object.assign({}, activeData) });
-      }
+        const {activeData} = this.state;
+        activeData.productsCategories = data.value;
+        this.setState({activeData: Object.assign({}, activeData)});
+    }
 
     renderPage() {
         const formIsReadOnly = StateManager.mode === 0;
-        const { activeData, unitTypeOptions, productsCategoriesOptions } = this.state;
+        const {activeData, unitTypeOptions, productsCategoriesOptions} = this.state;
         return (
             <Form>
                 <Form.Input required fluid label='Label' placeholder='Label'
@@ -179,9 +194,10 @@ class EditFloorItem extends React.Component {
                              search
                              fluid
                              required label='Category' placeholder='Product Category' inline
-                                defaultValue={activeData.productsCategories}
-                               options={productsCategoriesOptions}
-                               disabled={formIsReadOnly}/>
+                             value={activeData.productsCategories}
+                             options={productsCategoriesOptions}
+                             disabled={formIsReadOnly}
+                             onChange={this.onProductCategoryChange}/>
                 <Form.Group widths='equal'>
                     <Form.Input required fluid label='x' placeholder='x' type='number' inline={true}
                                 value={activeData.x} onChange={this.onXChange}
@@ -204,8 +220,7 @@ class EditFloorItem extends React.Component {
 }
 
 EditFloorItem.propTypes = {
-    unitTypeOptions: PropTypes.array,
-    productsCategoriesOptions: PropTypes.array,
+    formProps: PropTypes.object.isRequired,
 };
 
 export default EditFloorItem;

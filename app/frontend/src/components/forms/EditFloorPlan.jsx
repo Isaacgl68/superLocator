@@ -4,9 +4,10 @@ import { Loader, Label, Segment, Form } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { cloneDeep, toNumber, isNaN } from 'lodash';
 import PropTypes from 'prop-types';
-import {storesApi, productsCategoryApi, floorUnitsTypeApi} from '../../api/Api.js';
+import {floorPlanItemsApi, productsCategoryApi, floorUnitsTypeApi} from '../../api/Api.js';
 // import FormListComponent from '../formList/FormListComponent';
 import StateManager from '../../stateManager/StateManager';
+import {reaction} from "mobx";
 
 
 const initData = {
@@ -51,10 +52,36 @@ class EditFloorPlan extends React.Component {
                 }
 
             });
+        if (StateManager.selectedDocumentId){
+            this.getDocument(StateManager.selectedDocumentId);
+        }
+        this.onDocumentUpdate = reaction(
+            () => (StateManager.selectedDocumentId),
+            this.onDocumentUpdateReaction,
+        );
+
+        this.onModeUpdate = reaction(
+            () => (StateManager.mode),
+            this.onModeReaction,
+        );
+    }
+
+    onDocumentUpdateReaction = (selectedDocumentId) => {
+        if (StateManager.mode === 0 && selectedDocumentId) { this.getDocument(selectedDocumentId); }
+    }
+
+    onModeReaction = (mode) => {
+        if (mode === 2 || !this.state.doc) {
+            const newData = cloneDeep(initData);
+            newData.storeId = this.props.formProps.storeId;
+            this.setState({ activeData: newData });
+        } else {
+            this.setState({ activeData: cloneDeep(this.state.doc) });
+        }
     }
 
     componentDidUpdate(prevProps) {
-        const { mode, documentId } = this.props;
+       /* const { mode, documentId } = this.props;
         const { doc } = this.state;
         if (mode === 0 && documentId && documentId !== prevProps.documentId) {
             this.getDocument(documentId);
@@ -64,13 +91,13 @@ class EditFloorPlan extends React.Component {
             } else {
                 this.setState({ activeData: cloneDeep(doc) });
             }
-        }
+        }*/
 
     }
 
     getDocument = (id) => {
 
-        storesApi.getById(id).then(
+        floorPlanItemsApi.getById(id).then(
             (res) => {
                 this.setState({ doc: res, activeData: cloneDeep(res) });
             },(err) => {
@@ -91,7 +118,7 @@ class EditFloorPlan extends React.Component {
         const that = this;
         const mode = StateManager.mode;
         const activeDate = this.state.activeData;
-        const callApi = (mode === 1) ? storesApi.update : storesApi.insert;
+        const callApi = (mode === 1) ? floorPlanItemsApi.update : floorPlanItemsApi.insert;
         return callApi(activeDate).then(
             (res) => {
                 that.setState({ doc: Object.assign({}, res) });
