@@ -87,6 +87,14 @@ const ProductCategoryData = [
         _id: '21',
         label: 'פסטרמה ונקניק',
     },
+    {
+        _id: '22',
+        label: 'ביצים',
+    },
+    {
+        _id: '23',
+        label: 'גלידה',
+    },
 
 ];
 module.exports = ProductCategoryData;

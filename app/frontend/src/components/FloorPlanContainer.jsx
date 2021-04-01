@@ -4,13 +4,31 @@ import { Grid, Tab } from 'semantic-ui-react';
 // import { get } from 'lodash';
 import DetailsContainer from './DetailsContainer';
 import ListFloorPlanItems from '../pages/ListFloorPlanItems';
+import FloorPlanCanvas from './planEditor/FloorPlanCanvas';
+import StateManager from "../stateManager/StateManager";
+import {storesApi} from "../api/Api";
+import swal from "sweetalert";
 
 
 // import {useParams} from "react-router-dom";
 
 class FloorPlanContainer extends Component {
     state = {
+        store:undefined
     };
+
+    componentDidMount() {
+        StateManager.setSelectedDocumentId(undefined);
+        storesApi.getById(this.props.match.params.storeId).then(
+            (res) => {
+                this.setState({ store: res, ready: true });
+            },(err) => {
+                if (err) {
+                    swal('Error', err.message, 'error');
+                    this.setState({ ready: true });
+                }
+            });
+    }
 
     panes = [
         {
@@ -21,7 +39,8 @@ class FloorPlanContainer extends Component {
         },
         {
             menuItem: 'Plan',
-            render: () => <Tab.Pane attached={false}>Plan Content</Tab.Pane>,
+            render: () => <Tab.Pane attached={false}><FloorPlanCanvas store={this.state.store}
+            /></Tab.Pane>,
         },
     ]
         /*
